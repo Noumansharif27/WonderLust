@@ -55,6 +55,14 @@ app.get("/listings/:id", async (req, res) => {
   console.log(`here is your requested listing: ${listing}`);
 });
 
+// Edit route
+app.get("/listings/:id/edit", async (req, res) => {
+  const { id } = req.params;
+  const listing = await Listing.findById(id);
+  console.log(listing);
+  res.render("listings/edit.ejs", { listing });
+});
+
 app.listen(PORT, () => {
   console.log(`App is listening at PORT: ${PORT}`);
 });
