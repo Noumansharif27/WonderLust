@@ -1,0 +1,19 @@
+{
+  "name": "wonderlust",
+  "version": "1.0.0",
+  "description": "A replica of AirBNB",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Noumansharif27/WonderLust.git"
+  },
+  "author": "Nouman Sharif Gul",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Noumansharif27/WonderLust/issues"
+  },
+  "homepage": "https://github.com/Noumansharif27/WonderLust#readme"
+}
