@@ -6,7 +6,7 @@
 
 **To initilize a project simply pate the following command into your CMD.**
 
-> npm init -y
+`npm init -y`
 
 ## How to start a express route:
 
@@ -15,7 +15,7 @@
     // make sure that the express is installed properly into your machine.
     // to install it you have to write the following command into your terminal
 
-> npm install express
+`npm install express`
 
     const express = require("express") // require the express.
 
@@ -36,18 +36,18 @@
 
 **To Initilize a DataBase you must first known which DataBase are you going to use in you project as per MERNSTACK I am using MongoDB.**
 
-    // first install the mongoose into your project but simply tying the following command in your CMD
+    first install the mongoose into your project but simply tying the following command in your CMD
 
-> npm install mongoose
+`npm install mongoose`
 
     const mongoose = require("mongoose"); // require the DB
-    const MONGO_URL = "mongodb://127.0.0.1:27017/wonderlust" // initilizing the DB server.
+        const MONGO_URL = "mongodb://127.0.0.1:27017/wonderlust" // initilizing the DB server.
 
     main().then(() => {
         console.log("connect to DB"); // log the success message if the opratio is succesful
-    }).catch((ERR) => {
-        console.log(ERR); // log-out the ERROR if we get one
-    });
+        }).catch((ERR) => {
+            console.log(ERR); // log-out the ERROR if we get one
+        });
 
     async function main() {
         await mongoose.connect(MONGO_URL);
@@ -58,7 +58,7 @@
 **To create a listing model we are creating a model repo which will hold the required models for our project.**
 
     const mongoose = require("mongoose");
-    const Shcema = mongoose.Schema;
+        const Shcema = mongoose.Schema;
 
     const listingSchema = Schema({
      title: {
@@ -87,4 +87,46 @@
     },
     });
 
-**_Creating a route to see the apply and see the changes in DB_**
+**_Creating a test route to see the apply changes in DB_**
+
+    const expres = require("express");
+    const mongoose = require("mongoose");
+    const Listing = require("./models/listing.js"); // requiring listing model
+    const path = require("path");
+
+    const app = expres();
+    const PORT = 3000;
+    const MONGO_URL = "mongodb://127.0.0.1:27017/wonderlust";
+
+    main()
+    .then(() => {
+        console.log("connected to DB");
+    })
+    .catch((ERR) => {
+        console.log(ERR);
+    });
+
+    async function main() {
+    await mongoose.connect(MONGO_URL);
+    }
+
+    app.get("/", (req, res) => {
+    res.send("Welcome to index route");
+    });
+
+    app.get("/testListing", async (req, res) => {
+        const listing = Listing.insertOne({
+            title: "MY new House",
+            description: "A new house for my new life."
+            price: 355,
+            country: "Pakistan",
+            location: "kachi Deri, Mahansehrah",
+        });
+
+        await listing.save();
+        res.send("Listing added successfully.");
+    });
+
+    app.listen(PORT, () => {
+        console.log(`App is listening at PORT: ${PORT}`);
+    });
