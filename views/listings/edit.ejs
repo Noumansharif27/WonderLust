@@ -6,7 +6,7 @@
     <title>Edit Listings</title>
   </head>
   <body>
-    <form action="/listings" method="post">
+    <form action="/listings/<%= listing._id %>" method="post">
       <label for="title">Title</label>
       <input
         type="text"

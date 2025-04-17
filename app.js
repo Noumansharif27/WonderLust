@@ -55,6 +55,14 @@ app.get("/listings/:id", async (req, res) => {
   console.log(`here is your requested listing: ${listing}`);
 });
 
+// post edit route
+app.post("/listings/:id", (req, res) => {
+  const { id } = req.params;
+  const listing = req.body.listing;
+  console.log(listing);
+  res.redirect(`/listing/${id}`);
+});
+
 // Edit route
 app.get("/listings/:id/edit", async (req, res) => {
   const { id } = req.params;
