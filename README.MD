@@ -41,7 +41,7 @@
 > npm install mongoose
 
     const mongoose = require("mongoose"); // require the DB
-    const MONGO_URL = "mongodb://127.0.0.1:12701/wonderlust" // initilizing the DB server.
+    const MONGO_URL = "mongodb://127.0.0.1:27017/wonderlust" // initilizing the DB server.
 
     main().then(() => {
         console.log("connect to DB"); // log the success message if the opratio is succesful
@@ -50,5 +50,5 @@
     });
 
     async function main() {
-        mongoose.connect(MONGO_URL);
+        await mongoose.connect(MONGO_URL);
     }
