@@ -1,10 +1,14 @@
 const expres = require("express");
 const mongoose = require("mongoose");
 const Listing = require("./models/listing.js"); // requiring listing model
+const path = require("path");
 
 const app = expres();
 const PORT = 3000;
 const MONGO_URL = "mongodb://127.0.0.1:27017/wonderlust";
+
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
 
 main()
   .then(() => {
@@ -22,19 +26,10 @@ app.get("/", (req, res) => {
   res.send("Welcome to index route");
 });
 
-app.get("/testListing", async (req, res) => {
-  let listing = Listing({
-    title: "My sweet House",
-    description:
-      "My new buy house to shift my life, and makes some new changes",
-    price: 55,
-    country: "Pakistan",
-    location: "Lahore",
-  });
-
-  await listing.save();
-  console.log("Opreating was successful.");
-  res.send("successfully a new listing was added.");
+app.get("/listings", async (req, res) => {
+  const allListings = await Listing.find({});
+  console.log(allListings);
+  res.render("listings/index.ejs", { allListings });
 });
 
 app.listen(PORT, () => {
