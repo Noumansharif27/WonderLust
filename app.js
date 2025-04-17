@@ -10,6 +10,8 @@ const MONGO_URL = "mongodb://127.0.0.1:27017/wonderlust";
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
+app.use(expres.urlencoded({ extended: true }));
+
 main()
   .then(() => {
     console.log("connected to DB");
@@ -30,6 +32,18 @@ app.get("/", (req, res) => {
 app.get("/listings", async (req, res) => {
   const allListings = await Listing.find({});
   res.render("listings/index.ejs", { allListings });
+});
+
+// New listing route
+app.get("/listings/new", (req, res) => {
+  res.render("listings/new.ejs");
+});
+
+// Post listing route
+app.post("/listings", async (req, res) => {
+  const listing = new Listing(req.body.listing);
+  await listing.save();
+  res.redirect("/listings");
 });
 
 // show listing route
