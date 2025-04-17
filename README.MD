@@ -52,3 +52,39 @@
     async function main() {
         await mongoose.connect(MONGO_URL);
     }
+
+## Creating a model Listing:
+
+**To create a listing model we are creating a model repo which will hold the required models for our project.**
+
+    const mongoose = require("mongoose");
+    const Shcema = mongoose.Schema;
+
+    const listingSchema = Schema({
+     title: {
+        type: String,
+        required: true,
+    },
+    description: {
+        type: String,
+        required: true,
+    },
+    image: {
+        type: String,
+        default: "/public/assets/default-listing.jpg",
+        set: (v) => (v === "" ? "/public/assets/default-listing.jpeg" : v),
+    },
+    price: {
+        type: Number,
+        required: true,
+    },
+    location: {
+        type: String,
+        required: true,
+    },
+    country: {
+        type: String,
+    },
+    });
+
+**_Creating a route to see the apply and see the changes in DB_**

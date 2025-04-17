@@ -26,10 +26,20 @@ app.get("/", (req, res) => {
   res.send("Welcome to index route");
 });
 
+// index listing route
 app.get("/listings", async (req, res) => {
   const allListings = await Listing.find({});
   console.log(allListings);
   res.render("listings/index.ejs", { allListings });
+});
+
+// show listing route
+app.get("/listings/:id", async (req, res) => {
+  const { id } = req.params;
+  const listing = await Listing.findById(id);
+
+  res.render("listings/show.ejs", { listing });
+  console.log(`here is your requested listing: ${listing}`);
 });
 
 app.listen(PORT, () => {
