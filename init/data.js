@@ -2,7 +2,7 @@ const data = [
   {
     title: "Cozy Mountain Cabin",
     description: "A peaceful retreat in the heart of the mountains.",
-    image: "https://yavuzceliker.github.io/sample-images/image-1.jpg",
+    image: "/public/assets/image-0.jpg",
     price: 120,
     location: "Aspen, Colorado",
     country: "USA",
@@ -10,7 +10,7 @@ const data = [
   {
     title: "Luxury Beachfront Villa",
     description: "Wake up to the sound of waves in this stunning villa.",
-    image: "https://yavuzceliker.github.io/sample-images/image-2.jpg",
+    image: "/public/assets/image-1.jpg",
     price: 450,
     location: "Malibu, California",
     country: "USA",
@@ -18,7 +18,7 @@ const data = [
   {
     title: "Modern City Apartment",
     description: "A stylish apartment in the heart of the city.",
-    image: "https://yavuzceliker.github.io/sample-images/image-3.jpg",
+    image: "/public/assets/image-2.jpg",
     price: 200,
     location: "New York City, New York",
     country: "USA",
@@ -26,7 +26,7 @@ const data = [
   {
     title: "Rustic Countryside Cottage",
     description: "Escape to the countryside in this charming cottage.",
-    image: "https://yavuzceliker.github.io/sample-images/image-4.jpg",
+    image: "/public/assets/image-3.jpg",
     price: 90,
     location: "Yorkshire, England",
     country: "UK",
@@ -34,7 +34,7 @@ const data = [
   {
     title: "Charming Lakehouse",
     description: "Enjoy serene lake views from this cozy retreat.",
-    image: "https://yavuzceliker.github.io/sample-images/image-5.jpg",
+    image: "/public/assets/image-4.jpg",
     price: 150,
     location: "Lake Tahoe, California",
     country: "USA",
@@ -42,7 +42,7 @@ const data = [
   {
     title: "Historic Townhouse",
     description: "A beautifully restored townhouse in a historic district.",
-    image: "https://yavuzceliker.github.io/sample-images/image-6.jpg",
+    image: "/public/assets/image-0.jpg",
     price: 300,
     location: "Charleston, South Carolina",
     country: "USA",
@@ -50,7 +50,7 @@ const data = [
   {
     title: "Ski Resort Chalet",
     description: "Perfect for winter getaways with ski-in/ski-out access.",
-    image: "https://yavuzceliker.github.io/sample-images/image-7.jpg",
+    image: "/public/assets/image-1.jpg",
     price: 500,
     location: "Whistler, Canada",
     country: "Canada",
@@ -58,7 +58,7 @@ const data = [
   {
     title: "Tropical Bungalow",
     description: "Relax in this tropical paradise with private beach access.",
-    image: "https://yavuzceliker.github.io/sample-images/image-8.jpg",
+    image: "/public/assets/image-2.jpg",
     price: 350,
     location: "Bali, Indonesia",
     country: "Indonesia",
@@ -66,7 +66,7 @@ const data = [
   {
     title: "Urban Loft",
     description: "A trendy loft in the heart of the city with skyline views.",
-    image: "https://yavuzceliker.github.io/sample-images/image-9.jpg",
+    image: "/public/assets/image-3.jpg",
     price: 275,
     location: "San Francisco, California",
     country: "USA",
@@ -74,10 +74,50 @@ const data = [
   {
     title: "Desert Retreat",
     description: "Experience tranquility in this secluded desert home.",
-    image: "https://yavuzceliker.github.io/sample-images/image-10.jpg",
+    image: "/public/assets/image-4.jpg",
     price: 180,
     location: "Sedona, Arizona",
     country: "USA",
+  },
+  {
+    title: "Victorian Mansion",
+    description: "A grand Victorian-era mansion with stunning architecture.",
+    image: "/public/assets/image-0.jpg",
+    price: 600,
+    location: "Boston, Massachusetts",
+    country: "USA",
+  },
+  {
+    title: "Treehouse Getaway",
+    description: "Escape into nature with this unique treetop retreat.",
+    image: "/public/assets/image-1.jpg",
+    price: 250,
+    location: "Portland, Oregon",
+    country: "USA",
+  },
+  {
+    title: "Modern Suburban Home",
+    description: "A sleek and comfortable home in a suburban neighborhood.",
+    image: "/public/assets/image-2.jpg",
+    price: 220,
+    location: "Dallas, Texas",
+    country: "USA",
+  },
+  {
+    title: "Minimalist Tiny House",
+    description: "A compact yet stylish tiny home perfect for simple living.",
+    image: "/public/assets/image-3.jpg",
+    price: 80,
+    location: "Seattle, Washington",
+    country: "USA",
+  },
+  {
+    title: "Lakefront Log Cabin",
+    description: "A traditional log cabin with stunning lake views.",
+    image: "/public/assets/image-4.jpg",
+    price: 170,
+    location: "Ontario, Canada",
+    country: "Canada",
   },
 ];
 
