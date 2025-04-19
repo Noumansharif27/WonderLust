@@ -1,45 +1,61 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>New Listings</title>
-  </head>
-  <body>
-    <form action="/listings" method="post">
-      <label for="title">Title</label>
-      <input type="text" name="listing[title]" placeholder="title" id="title" />
+<%- layout("layouts/boilerplate") %>
+<body>
+  <form action="/listings" method="post" class="form">
+    <h1>Editing Route</h1>
 
-      <label for="description">Description</label>
-      <input
-        type="text"
-        name="listing[description]"
-        placeholder="description"
-        id="description"
-      />
+    <label class="form-label" for="title">Title</label>
+    <input
+      class="form-control"
+      type="text"
+      name="listing[title]"
+      placeholder="title"
+      id="title"
+    />
 
-      <label for="image">Image Url</label>
-      <input type="text" name="listing[image]" placeholder="Url" id="image" />
+    <label class="form-label" for="description">Description</label>
+    <input
+      class="form-control"
+      type="text"
+      name="listing[description]"
+      placeholder="description"
+      id="description"
+    />
 
-      <label for="price">Price</label>
-      <input type="number" name="listing[price]" placeholder="99" id="price" />
+    <label class="form-label" for="image">Image Url</label>
+    <input
+      class="form-control"
+      type="text"
+      name="listing[image]"
+      placeholder="Url"
+      id="image"
+    />
 
-      <label for="country">Country</label>
-      <input
-        type="text"
-        name="listing[country]"
-        id="country"
-        placeholder="Pakistan"
-      />
+    <label class="form-label" for="price">Price</label>
+    <input
+      class="form-control"
+      type="number"
+      name="listing[price]"
+      placeholder="99"
+      id="price"
+    />
 
-      <label for="location">Location</label>
-      <input
-        type="text"
-        name="listing[location]"
-        placeholder="lahore"
-        id="location"
-      />
-      <button>Add</button>
-    </form>
-  </body>
-</html>
+    <label class="form-label" for="country">Country</label>
+    <input
+      class="form-control"
+      type="text"
+      name="listing[country]"
+      id="country"
+      placeholder="Pakistan"
+    />
+
+    <label class="form-label" for="location">Location</label>
+    <input
+      class="form-control"
+      type="text"
+      name="listing[location]"
+      placeholder="lahore"
+      id="location"
+    />
+    <button class="btn btn-success" style="margin: 1rem 0">Add</button>
+  </form>
+</body>

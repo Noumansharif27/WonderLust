@@ -1,86 +1,67 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Edit Listings</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7"
-      crossorigin="anonymous"
+<%- layout("layouts/boilerplate") %>
+
+<body>
+  <form
+    action="/listings/<%= listing._id %>?_method=PUT"
+    method="post"
+    class="form"
+  >
+    <h1>Edit From</h1>
+
+    <label class="form-label" for="title">Title</label>
+    <input
+      class="form-control"
+      type="text"
+      name="listing[title]"
+      value="<%= listing.title %>"
+      id="title"
     />
-    <link rel="stylesheet" href="/css/style.css" />
-  </head>
-  <body>
-    <form
-      action="/listings/<%= listing._id %>?_method=PUT"
-      method="post"
-      class="form"
+
+    <label class="form-label" for="description">Description</label>
+    <textarea
+      class="form-control"
+      type="text"
+      name="listing[description]"
+      id="description"
     >
-      <h1>Edit From</h1>
-
-      <label class="form-label" for="title">Title</label>
-      <input
-        class="form-control"
-        type="text"
-        name="listing[title]"
-        value="<%= listing.title %>"
-        id="title"
-      />
-
-      <label class="form-label" for="description">Description</label>
-      <textarea
-        class="form-control"
-        type="text"
-        name="listing[description]"
-        id="description"
-      >
     <%= listing.description %></textarea
-      >
+    >
 
-      <label class="form-label" for="image">Image Url</label>
-      <input
-        class="form-control"
-        type="text"
-        name="listing[image]"
-        value="<%= listing.image %>"
-        id="image"
-      />
+    <label class="form-label" for="image">Image Url</label>
+    <input
+      class="form-control"
+      type="text"
+      name="listing[image]"
+      value="<%= listing.image %>"
+      id="image"
+    />
 
-      <label class="form-label" for="price">Price</label>
-      <input
-        class="form-control"
-        type="number"
-        name="listing[price]"
-        value="<%= listing.price %>"
-        id="price"
-      />
+    <label class="form-label" for="price">Price</label>
+    <input
+      class="form-control"
+      type="number"
+      name="listing[price]"
+      value="<%= listing.price %>"
+      id="price"
+    />
 
-      <label class="form-label" for="country">Country</label>
-      <input
-        class="form-control"
-        type="text"
-        name="listing[country]"
-        id="country"
-        value="<%= listing.country %>"
-      />
+    <label class="form-label" for="country">Country</label>
+    <input
+      class="form-control"
+      type="text"
+      name="listing[country]"
+      id="country"
+      value="<%= listing.country %>"
+    />
 
-      <label class="form-label" for="location">Location</label>
-      <input
-        class="form-control"
-        type="text"
-        name="listing[location]"
-        value="<%= listing.location %>"
-        id="location"
-      />
-      <button class="btn btn-success" style="margin: 1rem 0">submit</button>
-    </form>
-
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
-      crossorigin="anonymous"
-    ></script>
-  </body>
-</html>
+    <label class="form-label" for="location">Location</label>
+    <input
+      class="form-control"
+      type="text"
+      name="listing[location]"
+      value="<%= listing.location %>"
+      id="location"
+    />
+    <button class="btn btn-success" style="margin: 1rem 0">submit</button>
+  </form>
+</body>
