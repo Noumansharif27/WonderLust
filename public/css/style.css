@@ -1,5 +1,50 @@
-/* * { */
-/* margin: 0; */
-/* padding: 0; */
-/* box-sizing: border-box; */
-/* } */
+body {
+  padding: 1rem 4rem 2rem 4rem;
+}
+
+.card {
+  border: none;
+  margin: 1rem 1rem;
+  display: grid;
+  text-decoration: none;
+  border-radius: 0.5rem;
+}
+
+.card:hover {
+  box-shadow: 10px 10px 10px #efefef;
+}
+
+.card .card-img-top {
+  width: 100%;
+  object-fit: cover;
+  height: 10rem;
+  border-radius: 1rem;
+}
+
+.show-card-img img.card-img-top {
+  height: 19rem;
+  margin-bottom: 1rem;
+}
+
+.show-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.show-card .btns {
+  display: flex;
+  gap: 1rem;
+}
+
+.show-card .btn {
+  width: 10rem;
+  display: inline-block;
+  margin: 1rem 0;
+}
+
+.form {
+  width: 60%;
+  margin: 3rem auto;
+}

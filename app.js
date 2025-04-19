@@ -1,18 +1,19 @@
-const expres = require("express");
+const express = require("express");
 const mongoose = require("mongoose");
 const Listing = require("./models/listing.js"); // requiring listing model
 const path = require("path");
 const methodOverride = require("method-override");
 
-const app = expres();
+const app = express();
 const PORT = 3000;
 const MONGO_URL = "mongodb://127.0.0.1:27017/wonderlust";
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-app.use(expres.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
+app.use(express.static(path.join(__dirname, "public")));
 
 main()
   .then(() => {
