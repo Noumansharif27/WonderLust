@@ -42,7 +42,7 @@ const data = [
   {
     title: "Historic Townhouse",
     description: "A beautifully restored townhouse in a historic district.",
-    image: "/assets/image-0.jpg",
+    image: "/assets/image-5.jpg",
     price: 300,
     location: "Charleston, South Carolina",
     country: "USA",
@@ -50,7 +50,7 @@ const data = [
   {
     title: "Ski Resort Chalet",
     description: "Perfect for winter getaways with ski-in/ski-out access.",
-    image: "/assets/image-1.jpg",
+    image: "/assets/image-6.jpg",
     price: 500,
     location: "Whistler, Canada",
     country: "Canada",
@@ -58,7 +58,7 @@ const data = [
   {
     title: "Tropical Bungalow",
     description: "Relax in this tropical paradise with private beach access.",
-    image: "/assets/image-2.jpg",
+    image: "/assets/image-7.jpg",
     price: 350,
     location: "Bali, Indonesia",
     country: "Indonesia",
@@ -66,7 +66,7 @@ const data = [
   {
     title: "Urban Loft",
     description: "A trendy loft in the heart of the city with skyline views.",
-    image: "/assets/image-3.jpg",
+    image: "/assets/image-8.jpg",
     price: 275,
     location: "San Francisco, California",
     country: "USA",
@@ -74,7 +74,7 @@ const data = [
   {
     title: "Desert Retreat",
     description: "Experience tranquility in this secluded desert home.",
-    image: "/assets/image-4.jpg",
+    image: "/assets/image-9.jpg",
     price: 180,
     location: "Sedona, Arizona",
     country: "USA",
@@ -82,7 +82,7 @@ const data = [
   {
     title: "Victorian Mansion",
     description: "A grand Victorian-era mansion with stunning architecture.",
-    image: "/assets/image-0.jpg",
+    image: "/assets/image-10.jpg",
     price: 600,
     location: "Boston, Massachusetts",
     country: "USA",
@@ -90,7 +90,7 @@ const data = [
   {
     title: "Treehouse Getaway",
     description: "Escape into nature with this unique treetop retreat.",
-    image: "/assets/image-1.jpg",
+    image: "/assets/image-12.jpg",
     price: 250,
     location: "Portland, Oregon",
     country: "USA",
@@ -98,7 +98,7 @@ const data = [
   {
     title: "Modern Suburban Home",
     description: "A sleek and comfortable home in a suburban neighborhood.",
-    image: "/assets/image-2.jpg",
+    image: "/assets/image-13.jpg",
     price: 220,
     location: "Dallas, Texas",
     country: "USA",
@@ -106,7 +106,7 @@ const data = [
   {
     title: "Minimalist Tiny House",
     description: "A compact yet stylish tiny home perfect for simple living.",
-    image: "/assets/image-3.jpg",
+    image: "/assets/image-14.jpg",
     price: 80,
     location: "Seattle, Washington",
     country: "USA",
@@ -114,7 +114,7 @@ const data = [
   {
     title: "Lakefront Log Cabin",
     description: "A traditional log cabin with stunning lake views.",
-    image: "/assets/image-4.jpg",
+    image: "/assets/image-0.jpg",
     price: 170,
     location: "Ontario, Canada",
     country: "Canada",
