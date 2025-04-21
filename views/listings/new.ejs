@@ -1,6 +1,12 @@
 <%- layout("layouts/boilerplate") %>
 <body>
-  <form action="/listings" method="post" class="form">
+  <form
+    action="/listings"
+    method="post"
+    novalidate
+    class="form"
+    class="needs-validation"
+  >
     <h1>Editing Route</h1>
 
     <label class="form-label" for="title">Title</label>
@@ -10,6 +16,7 @@
       name="listing[title]"
       placeholder="title"
       id="title"
+      required
     />
 
     <label class="form-label" for="description">Description</label>
@@ -19,6 +26,7 @@
       name="listing[description]"
       placeholder="description"
       id="description"
+      required
     />
 
     <label class="form-label" for="image">Image Url</label>
@@ -37,6 +45,7 @@
       name="listing[price]"
       placeholder="99"
       id="price"
+      required
     />
 
     <label class="form-label" for="country">Country</label>
@@ -46,6 +55,7 @@
       name="listing[country]"
       id="country"
       placeholder="Pakistan"
+      required
     />
 
     <label class="form-label" for="location">Location</label>
@@ -55,6 +65,7 @@
       name="listing[location]"
       placeholder="lahore"
       id="location"
+      required
     />
     <button class="btn btn-success" style="margin: 1rem 0">Add</button>
   </form>
