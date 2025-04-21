@@ -12,8 +12,8 @@ const listingSchema = Schema({
   },
   image: {
     type: String,
-    default: "/public/assets/default-listing.jpg",
-    set: (v) => (v === "" ? "/public/assets/default-listing.jpeg" : v),
+    default: "/assets/default-listing.jpg",
+    set: (v) => (v === "" ? "/assets/default-listing.jpg" : v),
   },
   price: {
     type: Number,
