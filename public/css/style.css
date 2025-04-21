@@ -48,3 +48,22 @@ body {
   width: 60%;
   margin: 3rem auto;
 }
+
+nav {
+  margin-bottom: 2rem;
+}
+
+.footer {
+  width: 100%;
+  height: 5rem;
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  padding: 0 2rem;
+}
+
+footer .f-social-links {
+  display: flex;
+  gap: 1rem;
+  margin-left: 2rem;
+}

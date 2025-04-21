@@ -2,7 +2,6 @@
 
 <body>
   <h2>All Listings</h2>
-  <a href="/listings/new" class="btn btn-primary">New Listings</a>
   <div class="row row-clos-lg-3 row-cols-md-2 row-cols-sm-1">
     <% for(let listing of allListings) { %>
     <a href="/listings/<%= listing._id %>" class="card" style="width: 18rem">
