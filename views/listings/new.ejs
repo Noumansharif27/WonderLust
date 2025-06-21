@@ -4,69 +4,95 @@
     action="/listings"
     method="post"
     novalidate
-    class="form"
+    class="form needs-validation"
+    novalidate
     class="needs-validation"
   >
-    <h1>Editing Route</h1>
+    <h1>New Listing</h1>
 
-    <label class="form-label" for="title">Title</label>
-    <input
-      class="form-control"
-      type="text"
-      name="listing[title]"
-      placeholder="title"
-      id="title"
-      required
-    />
+    <div>
+      <label class="form-label" for="title">Title</label>
+      <input
+        class="form-control"
+        type="text"
+        name="listing[title]"
+        placeholder="title"
+        id="title"
+        required
+      />
+      <div class="valid-feedback">Looks good!</div>
+      <div class="invalid-feedback">Duh Dude!</div>
+    </div>
 
-    <label class="form-label" for="description">Description</label>
-    <input
-      class="form-control"
-      type="text"
-      name="listing[description]"
-      placeholder="description"
-      id="description"
-      required
-    />
+    <div>
+      <label class="form-label" for="description">Description</label>
+      <input
+        class="form-control"
+        type="text"
+        name="listing[description]"
+        placeholder="description"
+        id="description"
+        required
+      />
+      <div class="valid-feedback">Looks good!</div>
+      <div class="invalid-feedback">Duh Dude!</div>
+    </div>
 
-    <label class="form-label" for="image">Image Url</label>
-    <input
-      class="form-control"
-      type="text"
-      name="listing[image]"
-      placeholder="Url"
-      id="image"
-    />
+    <div>
+      <label class="form-label" for="image">Image Url</label>
+      <input
+        class="form-control"
+        type="text"
+        name="listing[image]"
+        placeholder="Url"
+        id="image"
+      />
+      <div class="valid-feedback">Description Looks good!</div>
+      <div class="invalid-feedback">Duh Dude!</div>
+    </div>
 
-    <label class="form-label" for="price">Price</label>
-    <input
-      class="form-control"
-      type="number"
-      name="listing[price]"
-      placeholder="99"
-      id="price"
-      required
-    />
+    <div>
+      <label class="form-label" for="price">Price</label>
+      <input
+        class="form-control"
+        type="text"
+        name="listing[price]"
+        placeholder="99"
+        id="price"
+        required
+      />
+      <div class="valid-feedback">Looks good!</div>
+      <div class="invalid-feedback">Duh Dude!</div>
+    </div>
 
-    <label class="form-label" for="country">Country</label>
-    <input
-      class="form-control"
-      type="text"
-      name="listing[country]"
-      id="country"
-      placeholder="Pakistan"
-      required
-    />
+    <div>
+      <label class="form-label" for="country">Country</label>
+      <input
+        class="form-control"
+        type="text"
+        name="listing[country]"
+        id="country"
+        placeholder="Pakistan"
+        required
+      />
+      <div class="valid-feedback">Looks good!</div>
+      <div class="invalid-feedback">Duh Dude!</div>
+    </div>
 
-    <label class="form-label" for="location">Location</label>
-    <input
-      class="form-control"
-      type="text"
-      name="listing[location]"
-      placeholder="lahore"
-      id="location"
-      required
-    />
+    <div>
+      <label class="form-label" for="location">Location</label>
+      <input
+        class="form-control"
+        type="text"
+        name="listing[location]"
+        placeholder="lahore"
+        id="location"
+        required
+      />
+      <div class="valid-feedback">Looks good!</div>
+      <div class="invalid-feedback">Duh Dude!</div>
+    </div>
+
     <button class="btn btn-success" style="margin: 1rem 0">Add</button>
   </form>
 </body>

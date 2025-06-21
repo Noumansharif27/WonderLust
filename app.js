@@ -4,6 +4,8 @@ const Listing = require("./models/listing.js"); // requiring listing model
 const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
+const asyncWrap = require("./utils/asyncWrap.js");
+const ExpressError = require("./utils/ExpressError.js");
 
 const app = express();
 const PORT = 3000;
@@ -46,11 +48,14 @@ app.get("/listings/new", (req, res) => {
 });
 
 // Post listing route
-app.post("/listings", async (req, res) => {
-  const listing = new Listing(req.body.listing);
-  await listing.save();
-  res.redirect("/listings");
-});
+app.post(
+  "/listings",
+  asyncWrap(async (req, res, next) => {
+    const listing = new Listing(req.body.listing);
+    await listing.save();
+    res.redirect("/listings");
+  })
+);
 
 // show listing route
 app.get("/listings/:id", async (req, res) => {
@@ -84,6 +89,14 @@ app.delete("/listings/:id/delete", async (req, res) => {
 
   console.log(listing);
   res.redirect("/listings");
+});
+
+app.all("*", (req, res, next) => {
+  next(new ExpressError(404, "Page not found!"));
+});
+
+app.use((err, req, res, next) => {
+  res.send("some error accured!");
 });
 
 app.listen(PORT, () => {
