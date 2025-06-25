@@ -1,6 +1,6 @@
 function asyncWrap(fn) {
   return function (req, res, next) {
-    fn().catch(next);
+    fn(req, res, next).catch(next);
   };
 }
 

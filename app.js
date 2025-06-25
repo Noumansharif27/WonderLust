@@ -37,10 +37,13 @@ app.get("/", (req, res) => {
 });
 
 // index listing route
-app.get("/listings", async (req, res) => {
-  const allListings = await Listing.find({});
-  res.render("listings/index.ejs", { allListings });
-});
+app.get(
+  "/listings",
+  asyncWrap(async (req, res) => {
+    const allListings = await Listing.find({});
+    res.render("listings/index.ejs", { allListings });
+  })
+);
 
 // New listing route
 app.get("/listings/new", (req, res) => {
@@ -58,45 +61,58 @@ app.post(
 );
 
 // show listing route
-app.get("/listings/:id", async (req, res) => {
-  const { id } = req.params;
-  const listing = await Listing.findById(id);
+app.get(
+  "/listings/:id",
+  asyncWrap(async (req, res) => {
+    const { id } = req.params;
+    const listing = await Listing.findById(id);
 
-  res.render("listings/show.ejs", { listing });
-  console.log(`here is your requested listing: ${listing}`);
-});
+    res.render("listings/show.ejs", { listing });
+    console.log(`here is your requested listing: ${listing}`);
+  })
+);
 
 // Edit route
-app.get("/listings/:id/edit", async (req, res) => {
-  const { id } = req.params;
-  const listing = await Listing.findById(id);
-  console.log(listing);
-  res.render("listings/edit.ejs", { listing });
-});
+app.get(
+  "/listings/:id/edit",
+  asyncWrap(async (req, res) => {
+    const { id } = req.params;
+    const listing = await Listing.findById(id);
+    console.log(listing);
+    res.render("listings/edit.ejs", { listing });
+  })
+);
 
 // Put edit route
-app.put("/listings/:id", async (req, res) => {
-  const { id } = req.params;
-  await Listing.findByIdAndUpdate(id, { ...req.body.listing });
+app.put(
+  "/listings/:id",
+  asyncWrap(async (req, res) => {
+    const { id } = req.params;
+    await Listing.findByIdAndUpdate(id, { ...req.body.listing });
 
-  res.redirect(`/listings/${id}`);
-});
+    res.redirect(`/listings/${id}`);
+  })
+);
 
 // Delete route
-app.delete("/listings/:id/delete", async (req, res) => {
-  const { id } = req.params;
-  const listing = await Listing.findByIdAndDelete(id);
+app.delete(
+  "/listings/:id/delete",
+  asyncWrap(async (req, res) => {
+    const { id } = req.params;
+    const listing = await Listing.findByIdAndDelete(id);
 
-  console.log(listing);
-  res.redirect("/listings");
-});
+    console.log(listing);
+    res.redirect("/listings");
+  })
+);
 
-app.all("*", (req, res, next) => {
+app.all("/*splat", (req, res, next) => {
   next(new ExpressError(404, "Page not found!"));
 });
 
 app.use((err, req, res, next) => {
-  res.send("some error accured!");
+  let { statusCode = 500, message = "Something went wrong" } = err;
+  res.status(statusCode).send(message);
 });
 
 app.listen(PORT, () => {
