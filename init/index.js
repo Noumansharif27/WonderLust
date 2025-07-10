@@ -7,6 +7,7 @@ const MONGO_URL = "mongodb://127.0.0.1:27017/wonderlust";
 main()
   .then(() => {
     console.log("connected to DB.");
+    return initilizeData(); // adding demo data
   })
   .catch((ERR) => {
     console.log(ERR);
@@ -15,8 +16,6 @@ main()
 async function main() {
   await mongoose.connect(MONGO_URL);
 }
-
-initilizeData(); // adding demo data
 
 async function initilizeData() {
   await Listing.deleteMany({}); // delete the previous data.

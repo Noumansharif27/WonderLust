@@ -6,6 +6,7 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const asyncWrap = require("./utils/asyncWrap.js");
 const ExpressError = require("./utils/ExpressError.js");
+const ListingValidation = require("./SchemaValidation.js");
 
 const app = express();
 const PORT = 3000;
@@ -54,6 +55,13 @@ app.get("/listings/new", (req, res) => {
 app.post(
   "/listings",
   asyncWrap(async (req, res, next) => {
+    const result = ListingValidation.validate(req.body);
+    console.log(result);
+
+    if (result.error) {
+      throw new ExpressError(400, result.error);
+    }
+
     const listing = new Listing(req.body.listing);
     await listing.save();
     res.redirect("/listings");
@@ -112,7 +120,7 @@ app.all("/*splat", (req, res, next) => {
 
 app.use((err, req, res, next) => {
   let { statusCode = 500, message = "Something went wrong" } = err;
-  res.status(statusCode).send(message);
+  res.status(statusCode).render("error.ejs", { err });
 });
 
 app.listen(PORT, () => {
