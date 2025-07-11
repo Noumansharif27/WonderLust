@@ -6,7 +6,7 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const asyncWrap = require("./utils/asyncWrap.js");
 const ExpressError = require("./utils/ExpressError.js");
-const ListingValidation = require("./SchemaValidation.js");
+const listingSchema = require("./SchemaValidation.js");
 
 const app = express();
 const PORT = 3000;
@@ -20,6 +20,20 @@ app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
 
 app.engine("ejs", ejsMate);
+
+const validateListing = (req, res, next) => {
+  const { error } = listingSchema.validate(req.body);
+  if (error) {
+    let errorMessage = error.details
+      .map((el) => {
+        return el.message;
+      })
+      .join(",");
+    throw new ExpressError(400, errorMessage);
+  } else {
+    next();
+  }
+};
 
 main()
   .then(() => {
@@ -54,14 +68,8 @@ app.get("/listings/new", (req, res) => {
 // Post listing route
 app.post(
   "/listings",
+  validateListing,
   asyncWrap(async (req, res, next) => {
-    const result = ListingValidation.validate(req.body);
-    console.log(result);
-
-    if (result.error) {
-      throw new ExpressError(400, result.error);
-    }
-
     const listing = new Listing(req.body.listing);
     await listing.save();
     res.redirect("/listings");
