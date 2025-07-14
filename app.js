@@ -7,8 +7,7 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const asyncWrap = require("./utils/asyncWrap.js");
 const ExpressError = require("./utils/ExpressError.js");
-const { listingSchema } = require("./SchemaValidation.js");
-const { reiviewSchema } = require("./SchemaValidation.js");
+const { listingSchema, reviewSchema } = require("./SchemaValidation.js");
 
 const app = express();
 const PORT = 3000;
@@ -25,6 +24,20 @@ app.engine("ejs", ejsMate);
 
 const validateListing = (req, res, next) => {
   const { error } = listingSchema.validate(req.body);
+  if (error) {
+    let errorMessage = error.details
+      .map((el) => {
+        return el.message;
+      })
+      .join(",");
+    throw new ExpressError(400, errorMessage);
+  } else {
+    next();
+  }
+};
+
+const validatingReview = (req, res, next) => {
+  const { error } = reviewSchema.validate(req.body);
   if (error) {
     let errorMessage = error.details
       .map((el) => {
@@ -83,9 +96,10 @@ app.get(
   "/listings/:id",
   asyncWrap(async (req, res) => {
     const { id } = req.params;
-    const listing = await Listing.findById(id);
+    const listing = await Listing.findById(id).populate("reviews");
 
     res.render("listings/show.ejs", { listing });
+    console.log(listing);
   })
 );
 
@@ -125,17 +139,31 @@ app.delete(
 
 // Reviews
 // Post review
-app.post("/listings/:id/reviews", async (req, res) => {
-  const { id } = req.params;
-  const listing = await Listing.findById(id);
-  const newReview = new Review(req.body.review);
+app.post(
+  "/listings/:id/reviews",
+  validatingReview,
+  asyncWrap(async (req, res) => {
+    const { id } = req.params;
+    const listing = await Listing.findById(id);
+    const newReview = new Review(req.body.review);
 
-  await newReview.save();
-  await listing.save();
+    listing.reviews.push(newReview);
 
-  console.log("Review added successfully!");
-  res.redirect(`/listings/${id}/`);
-});
+    await newReview.save();
+    await listing.save();
+
+    console.log("Review added successfully!");
+    res.redirect(`/listings/${id}/`);
+  })
+);
+
+// Detele Reviews
+app.post(
+  "listings/:listingId/reviews/reviewsId",
+  asyncWrap(async (req, res, next) => {
+    res.send("Working!");
+  })
+);
 
 app.all("/*splat", (req, res, next) => {
   next(new ExpressError(404, "Page not found!"));

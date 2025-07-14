@@ -6,7 +6,7 @@ body {
   margin-bottom: 2rem;
 }
 
-.card {
+.listing-card {
   border: none;
   margin: 1rem 1rem;
   display: grid;
