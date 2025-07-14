@@ -1,8 +1,10 @@
 <%- layout("layouts/boilerplate") %>
 
 <body>
-  <div class="row-row-lg-1 show-card">
-    <h2>Listing</h2>
+  <div class="row-lg-1 show-card">
+    <h2 class="offset-0 col-7">
+      <strong><%= listing.title %></strong>
+    </h2>
     <div class="card" style="width: 60%">
       <div class="show-card-img">
         <img
@@ -12,10 +14,10 @@
         />
       </div>
       <p class="card-text">
-        <strong><%= listing.title %></strong>
-        <br /><%= listing.description %> <br />&#x20A8; <%=
-        listing.price.toLocaleString("en-pk") %> <br /><%= listing.location %>
-        <br /><%= listing.country %>
+        <strong><%= listing.description %></strong> <br />
+        <span style="text-decoration: line-through; opacity: 0.7">Rs: 85</span>
+        &#x20A8; <%= listing.price.toLocaleString("en-pk") %>
+        <br /><%= listing.location %> <br /><%= listing.country %>
       </p>
 
       <div class="btns">
@@ -31,5 +33,44 @@
         </form>
       </div>
     </div>
+  </div>
+
+  <div class="col-8 offset-2">
+    <hr />
+    <h3>Reviews</h3>
+    <form
+      action="/listings/<%= listing._id %>/reviews"
+      method="post"
+      novalidate
+      class="needs-validation"
+    >
+      <div>
+        <label for="rating" class="form-label">Rating</label>
+        <input
+          type="range"
+          class="form-range"
+          min="1"
+          max="5"
+          id="rating"
+          name="review[rating]"
+        />
+      </div>
+
+      <div class="mt-2 mb-3">
+        <label for="comment" class="form-label">Comment</label>
+        <textarea
+          name="review[comment]"
+          id=""
+          cols="30"
+          rows="5"
+          class="form-control"
+          required
+        ></textarea>
+        <div class="valid-feedback">Looks good!</div>
+        <div class="invalid-feedback">Duh Dude!</div>
+      </div>
+
+      <button class="btn btn-outline-dark">Submit</button>
+    </form>
   </div>
 </body>

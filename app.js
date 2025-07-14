@@ -1,12 +1,14 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const Listing = require("./models/listing.js"); // requiring listing model
+const Listing = require("./models/listing.js"); // requiring Listing model
+const Review = require("./models/review.js"); // requiring Review model
 const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const asyncWrap = require("./utils/asyncWrap.js");
 const ExpressError = require("./utils/ExpressError.js");
-const listingSchema = require("./SchemaValidation.js");
+const { listingSchema } = require("./SchemaValidation.js");
+const { reiviewSchema } = require("./SchemaValidation.js");
 
 const app = express();
 const PORT = 3000;
@@ -84,7 +86,6 @@ app.get(
     const listing = await Listing.findById(id);
 
     res.render("listings/show.ejs", { listing });
-    console.log(`here is your requested listing: ${listing}`);
   })
 );
 
@@ -121,6 +122,20 @@ app.delete(
     res.redirect("/listings");
   })
 );
+
+// Reviews
+// Post review
+app.post("/listings/:id/reviews", async (req, res) => {
+  const { id } = req.params;
+  const listing = await Listing.findById(id);
+  const newReview = new Review(req.body.review);
+
+  await newReview.save();
+  await listing.save();
+
+  console.log("Review added successfully!");
+  res.redirect(`/listings/${id}/`);
+});
 
 app.all("/*splat", (req, res, next) => {
   next(new ExpressError(404, "Page not found!"));
