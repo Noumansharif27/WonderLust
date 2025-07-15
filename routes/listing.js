@@ -1,9 +1,9 @@
 const express = require("express");
-const Router = express.Router();
+const router = express.Router();
 const asyncWrap = require("../utils/asyncWrap.js");
-const { ExpressError } = require("../utils/ExpressError.js");
+const ExpressError = require("../utils/ExpressError.js");
 const Listing = require("../models/listing.js");
-const { listingSchema, reviewShema } = require("../SchemaValidation.js");
+const { listingSchema } = require("../SchemaValidation.js");
 
 const validateListing = (req, res, next) => {
   const { error } = listingSchema.validate(req.body);
@@ -20,8 +20,8 @@ const validateListing = (req, res, next) => {
 };
 
 // index listing route
-Router.get(
-  "/listings",
+router.get(
+  "/",
   asyncWrap(async (req, res) => {
     const allListings = await Listing.find({});
     res.render("listings/index.ejs", { allListings });
@@ -29,13 +29,13 @@ Router.get(
 );
 
 // New listing route
-Router.get("/listings/new", (req, res) => {
+router.get("/new", (req, res) => {
   res.render("listings/new.ejs");
 });
 
 // Post listing route
-Router.post(
-  "/listings",
+router.post(
+  "/",
   validateListing,
   asyncWrap(async (req, res, next) => {
     const listing = new Listing(req.body.listing);
@@ -45,8 +45,8 @@ Router.post(
 );
 
 // show listing route
-Router.get(
-  "/listings/:id",
+router.get(
+  "/:id",
   asyncWrap(async (req, res) => {
     const { id } = req.params;
     const listing = await Listing.findById(id).populate("reviews");
@@ -56,8 +56,8 @@ Router.get(
 );
 
 // Edit route
-Router.get(
-  "/listings/:id/edit",
+router.get(
+  "/:id/edit",
   asyncWrap(async (req, res) => {
     const { id } = req.params;
     const listing = await Listing.findById(id);
@@ -67,8 +67,8 @@ Router.get(
 );
 
 // Put edit route
-Router.put(
-  "/listings/:id",
+router.put(
+  "/:id",
   asyncWrap(async (req, res) => {
     const { id } = req.params;
     await Listing.findByIdAndUpdate(id, { ...req.body.listing });
@@ -78,8 +78,8 @@ Router.put(
 );
 
 // Delete Listing Route
-Router.delete(
-  "/listings/:id/delete",
+router.delete(
+  "/:id/delete",
   asyncWrap(async (req, res) => {
     const { id } = req.params;
     const listing = await Listing.findByIdAndDelete(id);
@@ -89,4 +89,4 @@ Router.delete(
   })
 );
 
-module.exports = Router;
+module.exports = router;
