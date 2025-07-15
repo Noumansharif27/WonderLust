@@ -154,3 +154,20 @@ app.delete(
 ```
 
 > In the above line of code we first extrat the Listing ID and Reviews ID the we find them using this IDs and afterwords by using the specia `$pull` method we found the ID of that perticular reviews and remove it from the list of Listings reviews, then delete the actual review. Because we are updating the review list in the listing so we will use `findByIdAndUpdate()` method instead of Delete one.
+
+### ssue: req.params.id was undefined in the reviews router
+
+> **What happened?** After separating the routes for Listings and Reviews into different files, I noticed that when trying to access `req.params.id` inside the reviews router, it was always `undefined`. This caused problems because I needed the listing ID to add or delete reviews for a specific listing.
+> **What caused the problem?** The issue was due to how Express routers handle route parameters. When you mount a router with a path like `/listings/:id/reviews`, the `:id` parameter is defined in the parent route. By default, Express does not pass these parent parameters into the child router, so `req.params.id` was not available inside the reviews router.
+
+> **What was the impact?** Because `req.params.id` was undefined, any code that relied on the listing ID (such as finding the correct listing to add a review to, or redirecting after an action) would fail or behave unexpectedly. This broke the review functionality for listings.
+
+> **How did we solve it?** The solution was to tell Express to merge the parent route parameters into the child router by initializing the router with `{ mergeParams: true }`:
+
+```js
+const router = express.Router({ mergeParams: true });
+```
+
+> This makes all parameters from the parent route (like `:id`) available as `req.params.id` inside the reviews router.
+
+> **How does it work now? With** `mergeParams: true`, when a request comes to `/listings/:id/reviews`, the `id` parameter is accessible in the reviews router. This allows us to correctly find the listing, add or delete reviews, and redirect users as needed. The review routes now work as expected, and the code is cleaner and more modular.
