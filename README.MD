@@ -89,6 +89,8 @@
 
 **_Creating a test route to see the apply changes in DB_**
 
+```js
+
     const expres = require("express");
     const mongoose = require("mongoose");
     const Listing = require("./models/listing.js"); // requiring listing model
@@ -130,3 +132,25 @@
     app.listen(PORT, () => {
         console.log(`App is listening at PORT: ${PORT}`);
     });
+```
+
+`Delete a review from the its collection also delete its pointer id from its parent listing.`
+
+```js
+// Detele Reviews
+app.delete(
+  "/listings/:id/reviews/:reviewsId",
+  asyncWrap(async (req, res, next) => {
+    const { id, reviewsId } = req.params;
+    const lising = await Listing.findByIdAndUpdate(id, {
+      $pull: { reviews: reviewsId },
+    });
+
+    const review = await Review.findByIdAndDelete(reviewsId);
+    console.log(review);
+    res.redirect(`/listings/${id}`);
+  })
+);
+```
+
+> In the above line of code we first extrat the Listing ID and Reviews ID the we find them using this IDs and afterwords by using the specia `$pull` method we found the ID of that perticular reviews and remove it from the list of Listings reviews, then delete the actual review. Because we are updating the review list in the listing so we will use `findByIdAndUpdate()` method instead of Delete one.

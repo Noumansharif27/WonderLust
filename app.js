@@ -8,6 +8,7 @@ const ejsMate = require("ejs-mate");
 const asyncWrap = require("./utils/asyncWrap.js");
 const ExpressError = require("./utils/ExpressError.js");
 const { listingSchema, reviewSchema } = require("./SchemaValidation.js");
+const listing = require("./routes/listing.js");
 
 const app = express();
 const PORT = 3000;
@@ -21,20 +22,6 @@ app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
 
 app.engine("ejs", ejsMate);
-
-const validateListing = (req, res, next) => {
-  const { error } = listingSchema.validate(req.body);
-  if (error) {
-    let errorMessage = error.details
-      .map((el) => {
-        return el.message;
-      })
-      .join(",");
-    throw new ExpressError(400, errorMessage);
-  } else {
-    next();
-  }
-};
 
 const validatingReview = (req, res, next) => {
   const { error } = reviewSchema.validate(req.body);
@@ -66,76 +53,7 @@ app.get("/", (req, res) => {
   res.send("Welcome to index route");
 });
 
-// index listing route
-app.get(
-  "/listings",
-  asyncWrap(async (req, res) => {
-    const allListings = await Listing.find({});
-    res.render("listings/index.ejs", { allListings });
-  })
-);
-
-// New listing route
-app.get("/listings/new", (req, res) => {
-  res.render("listings/new.ejs");
-});
-
-// Post listing route
-app.post(
-  "/listings",
-  validateListing,
-  asyncWrap(async (req, res, next) => {
-    const listing = new Listing(req.body.listing);
-    await listing.save();
-    res.redirect("/listings");
-  })
-);
-
-// show listing route
-app.get(
-  "/listings/:id",
-  asyncWrap(async (req, res) => {
-    const { id } = req.params;
-    const listing = await Listing.findById(id).populate("reviews");
-
-    res.render("listings/show.ejs", { listing });
-    console.log(listing);
-  })
-);
-
-// Edit route
-app.get(
-  "/listings/:id/edit",
-  asyncWrap(async (req, res) => {
-    const { id } = req.params;
-    const listing = await Listing.findById(id);
-    console.log(listing);
-    res.render("listings/edit.ejs", { listing });
-  })
-);
-
-// Put edit route
-app.put(
-  "/listings/:id",
-  asyncWrap(async (req, res) => {
-    const { id } = req.params;
-    await Listing.findByIdAndUpdate(id, { ...req.body.listing });
-
-    res.redirect(`/listings/${id}`);
-  })
-);
-
-// Delete route
-app.delete(
-  "/listings/:id/delete",
-  asyncWrap(async (req, res) => {
-    const { id } = req.params;
-    const listing = await Listing.findByIdAndDelete(id);
-
-    console.log(listing);
-    res.redirect("/listings");
-  })
-);
+app.use("/listings", listing);
 
 // Reviews
 // Post review
@@ -158,10 +76,17 @@ app.post(
 );
 
 // Detele Reviews
-app.post(
-  "listings/:listingId/reviews/reviewsId",
+app.delete(
+  "/listings/:id/reviews/:reviewsId",
   asyncWrap(async (req, res, next) => {
-    res.send("Working!");
+    const { id, reviewsId } = req.params;
+    const lising = await Listing.findByIdAndUpdate(id, {
+      $pull: { reviews: reviewsId },
+    });
+
+    const review = await Review.findByIdAndDelete(reviewsId);
+    console.log(review);
+    res.redirect(`/listings/${id}`);
   })
 );
 

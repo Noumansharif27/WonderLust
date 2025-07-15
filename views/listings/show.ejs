@@ -88,8 +88,9 @@
         </div>
 
         <form
-          action="/listings/<%= listing._id %>/reviews/<%= review._id %>/"
+          action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE"
           method="post"
+          class="mb-2"
         >
           <button class="btn btn-dark">Delete</button>
         </form>
