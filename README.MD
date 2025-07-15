@@ -12,11 +12,11 @@
 
 **To start an express router you have to follow the given code Snippet.**
 
-    // make sure that the express is installed properly into your machine.
-    // to install it you have to write the following command into your terminal
+> make sure that the express is installed properly into your machine. to install it you have to write the following command into your terminal
 
 `npm install express`
 
+```js
     const express = require("express") // require the express.
 
     const app = express(); // initilize the special express object to the app veriable.
@@ -31,6 +31,7 @@
     app.listen(PORT, () => {
         console.log(`App is listening at PORT: ${PORT}");
     })
+```
 
 ## Initilizing the DataBase:
 
@@ -40,52 +41,58 @@
 
 `npm install mongoose`
 
-    const mongoose = require("mongoose"); // require the DB
-        const MONGO_URL = "mongodb://127.0.0.1:27017/wonderlust" // initilizing the DB server.
+```js
+const mongoose = require("mongoose"); // require the DB
+const MONGO_URL = "mongodb://127.0.0.1:27017/wonderlust"; // initilizing the DB server.
 
-    main().then(() => {
-        console.log("connect to DB"); // log the success message if the opratio is succesful
-        }).catch((ERR) => {
-            console.log(ERR); // log-out the ERROR if we get one
-        });
+main()
+  .then(() => {
+    console.log("connect to DB"); // log the success message if the opratio is succesful
+  })
+  .catch((ERR) => {
+    console.log(ERR); // log-out the ERROR if we get one
+  });
 
-    async function main() {
-        await mongoose.connect(MONGO_URL);
-    }
+async function main() {
+  await mongoose.connect(MONGO_URL);
+}
+```
 
 ## Creating a model Listing:
 
 **To create a listing model we are creating a model repo which will hold the required models for our project.**
 
-    const mongoose = require("mongoose");
-        const Shcema = mongoose.Schema;
+```js
+const mongoose = require("mongoose");
+const Shcema = mongoose.Schema;
 
-    const listingSchema = Schema({
-     title: {
-        type: String,
-        required: true,
-    },
-    description: {
-        type: String,
-        required: true,
-    },
-    image: {
-        type: String,
-        default: "/public/assets/default-listing.jpg",
-        set: (v) => (v === "" ? "/public/assets/default-listing.jpeg" : v),
-    },
-    price: {
-        type: Number,
-        required: true,
-    },
-    location: {
-        type: String,
-        required: true,
-    },
-    country: {
-        type: String,
-    },
-    });
+const listingSchema = Schema({
+  title: {
+    type: String,
+    required: true,
+  },
+  description: {
+    type: String,
+    required: true,
+  },
+  image: {
+    type: String,
+    default: "/public/assets/default-listing.jpg",
+    set: (v) => (v === "" ? "/public/assets/default-listing.jpeg" : v),
+  },
+  price: {
+    type: Number,
+    required: true,
+  },
+  location: {
+    type: String,
+    required: true,
+  },
+  country: {
+    type: String,
+  },
+});
+```
 
 **_Creating a test route to see the apply changes in DB_**
 
