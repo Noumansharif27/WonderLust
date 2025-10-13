@@ -1,13 +1,24 @@
 const express = require("express");
 const app = express();
-const cookieParser = require("cookie-parser");
+const session = require("express-session");
 
-app.use(cookieParser());
+app.use(
+  session({
+    secret: "myDeepDarkSecret",
+    resave: false,
+    saveUninitialized: true,
+  })
+);
 
-app.get("/", (req, res) => {
-  res.send(`Welcome to root`);
+app.get("/test", (req, res) => {
+  if (req.session.count) {
+    req.session.count++;
+  } else {
+    req.session.count = 1;
+  }
+  res.send(`You are here ${req.session.count} times!`);
 });
 
-app.listen(8080, () => {
+app.listen(3000, () => {
   console.group(`Server is working!`);
 });
