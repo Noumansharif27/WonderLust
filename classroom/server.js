@@ -25,18 +25,23 @@ app.get("/test", (req, res) => {
   res.send(`You are here ${req.session.count} times!`);
 });
 
-app.listen(3000, () => {
-  console.group(`Server is working!`);
-});
-
 app.get("/register", (req, res) => {
   const { name = "anonymous" } = req.query;
   req.session.name = name;
+  if (name === "anonymous") {
+    res.locals.msg = req.flash("success", "user not registered successfully!");
+  } else {
+    res.locals.msg = req.flash("success", "user registered successfully!");
+  }
   req.flash("success", "user added successfully!");
   res.send(`Hello ${name}`);
 });
 
 app.get("/hello", (req, res) => {
-  console.log(flash("success"));
-  app.render("index.ejs", { name: req.session.name });
+  console.log(req.flash("success"));
+  res.render("index.ejs", { name: req.session.name, msg: res.locals.msg });
+});
+
+app.listen(3000, () => {
+  console.group(`Server is working!`);
 });
