@@ -33,13 +33,12 @@ app.get("/register", (req, res) => {
   } else {
     res.locals.msg = req.flash("success", "user registered successfully!");
   }
-  req.flash("success", "user added successfully!");
   res.send(`Hello ${name}`);
 });
 
 app.get("/hello", (req, res) => {
-  console.log(req.flash("success"));
-  res.render("index.ejs", { name: req.session.name, msg: res.locals.msg });
+  res.locals.message = req.flash("success");
+  res.render("index.ejs", { name: req.session.name, msg: res.locals.message });
 });
 
 app.listen(3000, () => {
