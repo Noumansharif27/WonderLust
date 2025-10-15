@@ -1,12 +1,19 @@
-# WonderLust
+# ✨ WonderLust
 
-**A Major-project of Delta which is being repeated to refresh my knowledge about backend.**
+> A Major-project of Delta which is being repeated to refresh my knowledge about backend.\*\*
+
+## Requirement
+
+1. [MongoDB Server](#MongoDBServer)
+2. [NodeJS](#NodeJS)
 
 ## Initilizing a project:
 
-**To initilize a project simply pate the following command into your CMD.**
+> To initilize a project simply pate the following command into your CMD.
 
-`npm init -y`
+```bash
+npm init -y
+```
 
 ## How to start a express route:
 
@@ -14,7 +21,9 @@
 
 > make sure that the express is installed properly into your machine. to install it you have to write the following command into your terminal
 
-`npm install express`
+```bash
+npm install express
+```
 
 ```js
     const express = require("express") // require the express.
@@ -35,11 +44,13 @@
 
 ## Initilizing the DataBase:
 
-**To Initilize a DataBase you must first known which DataBase are you going to use in you project as per MERNSTACK I am using MongoDB.**
+> To Initilize a DataBase you must first known which DataBase are you going to use in you project as per MERNSTACK I am using MongoDB.
 
-    first install the mongoose into your project but simply tying the following command in your CMD
+> first install the mongoose into your project but simply tying the following command in your CMD
 
-`npm install mongoose`
+```bash
+npm install mongoose
+```
 
 ```js
 const mongoose = require("mongoose"); // require the DB
@@ -60,7 +71,7 @@ async function main() {
 
 ## Creating a model Listing:
 
-**To create a listing model we are creating a model repo which will hold the required models for our project.**
+> To create a listing model we are creating a model repo to hold the required models for our project.
 
 ```js
 const mongoose = require("mongoose");
@@ -94,7 +105,7 @@ const listingSchema = Schema({
 });
 ```
 
-**_Creating a test route to see the apply changes in DB_**
+`Creating a test route to see the apply changes in DB`
 
 ```js
 
@@ -160,7 +171,14 @@ app.delete(
 );
 ```
 
-> In the above line of code we first extrat the Listing ID and Reviews ID the we find them using this IDs and afterwords by using the specia `$pull` method we found the ID of that perticular reviews and remove it from the list of Listings reviews, then delete the actual review. Because we are updating the review list in the listing so we will use `findByIdAndUpdate()` method instead of Delete one.
+<details>
+  <summary>Explination</summary>
+
+In the above line of code we first extrat the Listing ID and Reviews ID the we find them using this IDs and afterwords by using the specia `$pull` method we found the ID of that perticular reviews and remove it from the list of Listings reviews, then delete the actual review. Because we are updating the review list in the listing so we will use `findByIdAndUpdate()` method instead of Delete one.
+
+</details>
+
+>
 
 ### ssue: req.params.id was undefined in the reviews router
 
@@ -178,3 +196,38 @@ const router = express.Router({ mergeParams: true });
 > This makes all parameters from the parent route (like `:id`) available as `req.params.id` inside the reviews router.
 
 > **How does it work now? With** `mergeParams: true`, when a request comes to `/listings/:id/reviews`, the `id` parameter is accessible in the reviews router. This allows us to correctly find the listing, add or delete reviews, and redirect users as needed. The review routes now work as expected, and the code is cleaner and more modular.
+
+## connect-falsh (nodeJS package)
+
+> Flash is used to temporary display specific messge based on the input by the user, it gets cleared once the browser gets refresh or within some specific time.
+
+```bash
+npm i connect-flash
+```
+
+```js
+const flash = require("connect-flash");
+app.use(flash()); // As it is a middleware and would run between every request, that's why we have to make it app.use(flash());
+```
+
+## res.locals
+
+> Using this property variable defined init are accessable in the templates render with `res.render`, the variable set in res.locals are accessable within the `single request-response `cycle, and will not be shared between requests.
+
+```js
+app.get("/register", (req, res) => {
+  const { name = "anonymous" } = req.query;
+  req.session.name = name;
+  if (name === "anonymous") {
+    req.flash("success", "user not registered successfully!");
+  } else {
+    req.flash("success", "user registered successfully!");
+  }
+  res.redirect("hello");
+});
+
+app.get("/hello", (req, res) => {
+  res.locals.message = req.flash("success");
+  res.render("index.ejs", { name: req.session.name });
+});
+```
