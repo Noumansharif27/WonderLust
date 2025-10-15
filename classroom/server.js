@@ -29,16 +29,17 @@ app.get("/register", (req, res) => {
   const { name = "anonymous" } = req.query;
   req.session.name = name;
   if (name === "anonymous") {
-    res.locals.msg = req.flash("success", "user not registered successfully!");
+    req.flash("error", "user not registered successfully!");
   } else {
-    res.locals.msg = req.flash("success", "user registered successfully!");
+    req.flash("success", "user registered successfully!");
   }
-  res.send(`Hello ${name}`);
+  res.redirect("hello");
 });
 
 app.get("/hello", (req, res) => {
-  res.locals.message = req.flash("success");
-  res.render("index.ejs", { name: req.session.name, msg: res.locals.message });
+  res.locals.successMsg = req.flash("success");
+  res.locals.errorMsg = req.flash("error");
+  res.render("index.ejs", { name: req.session.name });
 });
 
 app.listen(3000, () => {
