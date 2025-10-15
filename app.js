@@ -15,6 +15,11 @@ const sessionOptions = {
   secret: "mysupersecretcode",
   resave: false,
   saveUninitilized: true,
+  cookie: {
+    expires: Date.now() + 7 + 60 + 60 + 1000,
+    maxAge: Date.now() + 12 + 60 + 60 + 1000,
+    httpOnly: true,
+  },
 };
 
 app.set("view engine", "ejs");
