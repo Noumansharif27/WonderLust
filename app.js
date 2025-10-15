@@ -6,10 +6,16 @@ const ejsMate = require("ejs-mate");
 const ExpressError = require("./utils/ExpressError.js");
 const listing = require("./routes/listing.js");
 const review = require("./routes/review.js");
+const session = require("express-session");
 
 const app = express();
 const PORT = 3000;
 const MONGO_URL = "mongodb://127.0.0.1:27017/wonderlust";
+const sessionOptions = {
+  secret: "mysupersecretcode",
+  resave: false,
+  saveUninitilized: true,
+};
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -17,6 +23,7 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
+app.use(session(sessionOptions));
 
 app.engine("ejs", ejsMate);
 

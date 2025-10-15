@@ -14,6 +14,11 @@ const sessionOptions = {
   saveUninitialized: true, // Forces the session to save that is uninitilized, new or not modified to be saved to the session store
 };
 app.use(session(sessionOptions));
+app.use((req, res, next) => {
+  res.locals.successMsg = req.flash("success");
+  res.locals.errorMsg = req.flash("error");
+  next();
+});
 
 // Using express-session to create a new variable for tracking the request quantity sent by the user.
 app.get("/test", (req, res) => {
@@ -37,8 +42,6 @@ app.get("/register", (req, res) => {
 });
 
 app.get("/hello", (req, res) => {
-  res.locals.successMsg = req.flash("success");
-  res.locals.errorMsg = req.flash("error");
   res.render("index.ejs", { name: req.session.name });
 });
 
