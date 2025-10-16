@@ -7,6 +7,7 @@ const ExpressError = require("./utils/ExpressError.js");
 const listing = require("./routes/listing.js");
 const review = require("./routes/review.js");
 const session = require("express-session");
+const flash = require("connect-flash");
 
 const app = express();
 const PORT = 3000;
@@ -28,7 +29,6 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
-app.use(session(sessionOptions));
 
 app.engine("ejs", ejsMate);
 
@@ -43,6 +43,14 @@ main()
 async function main() {
   await mongoose.connect(MONGO_URL);
 }
+
+app.use(session(sessionOptions));
+app.use(flash());
+
+app.use((req, res, next) => {
+  res.locals.success = req.flash("success");
+  next();
+});
 
 app.get("/", (req, res) => {
   res.send("Welcome to index route");
