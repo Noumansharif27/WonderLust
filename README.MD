@@ -1,6 +1,6 @@
 # ✨ WonderLust
 
-> A Major-project of Delta which is being repeated to refresh my knowledge about backend.\*\*
+A Major-project of Delta which is being repeated to refresh my knowledge about backend.
 
 ## Requirement
 
@@ -9,7 +9,7 @@
 
 ## Initilizing a project:
 
-> To initilize a project simply pate the following command into your CMD.
+To initilize a project simply pate the following command into your CMD.
 
 ```bash
 npm init -y
@@ -17,9 +17,9 @@ npm init -y
 
 ## How to start a express route:
 
-**To start an express router you have to follow the given code Snippet.**
+**📌To start an express router you have to follow the given code Snippet.**
 
-> make sure that the express is installed properly into your machine. to install it you have to write the following command into your terminal
+make sure that the express is installed properly into your machine. to install it you have to write the following command into your terminal
 
 ```bash
 npm install express
@@ -44,9 +44,9 @@ npm install express
 
 ## Initilizing the DataBase:
 
-> To Initilize a DataBase you must first known which DataBase are you going to use in you project as per MERNSTACK I am using MongoDB.
+To Initilize a DataBase you must first known which DataBase are you going to use in you project as per MERNSTACK I am using MongoDB.
 
-> first install the mongoose into your project but simply tying the following command in your CMD
+📍first install the mongoose into your project but simply tying the following command in your CMD
 
 ```bash
 npm install mongoose
@@ -71,7 +71,7 @@ async function main() {
 
 ## Creating a model Listing:
 
-> To create a listing model we are creating a model repo to hold the required models for our project.
+To create a listing model we are creating a model repo to hold the required models for our project.
 
 ```js
 const mongoose = require("mongoose");
@@ -182,24 +182,26 @@ In the above line of code we first extrat the Listing ID and Reviews ID the we f
 
 ### ssue: req.params.id was undefined in the reviews router
 
-> **What happened?** After separating the routes for Listings and Reviews into different files, I noticed that when trying to access `req.params.id` inside the reviews router, it was always `undefined`. This caused problems because I needed the listing ID to add or delete reviews for a specific listing.
-> **What caused the problem?** The issue was due to how Express routers handle route parameters. When you mount a router with a path like `/listings/:id/reviews`, the `:id` parameter is defined in the parent route. By default, Express does not pass these parent parameters into the child router, so `req.params.id` was not available inside the reviews router.
+**What happened?** After separating the routes for Listings and Reviews into different files, I noticed that when trying to access `req.params.id` inside the reviews router, it was always `undefined`. This caused problems because I needed the listing ID to add or delete reviews for a specific listing.
 
-> **What was the impact?** Because `req.params.id` was undefined, any code that relied on the listing ID (such as finding the correct listing to add a review to, or redirecting after an action) would fail or behave unexpectedly. This broke the review functionality for listings.
+**What caused the problem?** The issue was due to how Express routers handle route parameters. When you mount a router with a path like `/listings/:id/reviews`, the `:id` parameter is defined in the parent route. By default, Express does not pass these parent parameters into the child router, so `req.params.id` was not available inside the reviews router.
 
-> **How did we solve it?** The solution was to tell Express to merge the parent route parameters into the child router by initializing the router with `{ mergeParams: true }`:
+**What was the impact?** Because `req.params.id` was undefined, any code that relied on the listing ID (such as finding the correct listing to add a review to, or redirecting after an action) would fail or behave unexpectedly. This broke the review functionality for listings.
+
+**How did we solve it?** The solution was to tell Express to merge the parent route parameters into the child router by initializing the router with `{ mergeParams: true }`:
 
 ```js
 const router = express.Router({ mergeParams: true });
 ```
 
-> This makes all parameters from the parent route (like `:id`) available as `req.params.id` inside the reviews router.
+This makes all parameters from the parent route (like `:id`) available as `req.params.id` inside the reviews router.
 
-> **How does it work now? With** `mergeParams: true`, when a request comes to `/listings/:id/reviews`, the `id` parameter is accessible in the reviews router. This allows us to correctly find the listing, add or delete reviews, and redirect users as needed. The review routes now work as expected, and the code is cleaner and more modular.
+**How does it work now?**
+With`mergeParams: true`, when a request comes to `/listings/:id/reviews`, the `id` parameter is accessible in the reviews router. This allows us to correctly find the listing, add or delete reviews, and redirect users as needed. The review routes now work as expected, and the code is cleaner and more modular.
 
 ## connect-falsh (nodeJS package)
 
-> Flash is used to temporary display specific messge based on the input by the user, it gets cleared once the browser gets refresh or within some specific time.
+Flash is used to temporary display specific messge based on the input by the user, it gets cleared once the browser gets refresh or within some specific time.
 
 ```bash
 npm i connect-flash
@@ -212,7 +214,7 @@ app.use(flash()); // As it is a middleware and would run between every request, 
 
 ## res.locals
 
-> Using this property variable defined init are accessable in the templates render with `res.render`, the variable set in res.locals are accessable within the `single request-response `cycle, and will not be shared between requests.
+Using this property variable defined init are accessable in the templates render with `res.render`, the variable set in res.locals are accessable within the `single request-response `cycle, and will not be shared between requests.
 
 ```js
 app.get("/register", (req, res) => {
@@ -231,3 +233,11 @@ app.get("/hello", (req, res) => {
   res.render("index.ejs", { name: req.session.name });
 });
 ```
+
+## 🔐 Authentication:
+
+Authentication is the process of identifing who some is, are they really this person whome they pretends or not.
+
+## ⚙ Authorization
+
+Authorization is the process of managing access to the aunthnticated person, e.g which documents they can access, which queries they can perform.
