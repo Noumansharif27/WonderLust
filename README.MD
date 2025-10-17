@@ -241,3 +241,10 @@ Authentication is the process of identifing who some is, are they really this pe
 ## ⚙ Authorization
 
 Authorization is the process of managing access to the aunthnticated person, e.g which documents they can access, which queries they can perform.
+
+**How we store passwords?**
+We never store passwords as it is. e.g password: user@123, password_stored: 1234jhwjkw2231kxdsasjkjk21njkasdjnk2.
+It is called `Hashing`, it is an algoritam which is used to convert password in an unreadable format. it is almost impossible to restore the original password after hashing, there are any hanshing algorithem avaliable out there.
+
+**If it is impossiable to recover the hashed password, then how come we know it is wrong or correct?**
+As we say it is impossibale to hash-back the password, and we also known that if two the inputs are same then their output will be same as well. To Authenticate our user we get the password and hash it then copare it to the original stored password if both hash matches then we consider the password correct, or else we say it is wrong.
