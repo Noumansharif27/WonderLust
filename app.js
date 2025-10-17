@@ -15,7 +15,7 @@ const MONGO_URL = "mongodb://127.0.0.1:27017/wonderlust";
 const sessionOptions = {
   secret: "mysupersecretcode",
   resave: false,
-  saveUninitilized: true,
+  saveUninitialized: true,
   cookie: {
     expires: Date.now() + 7 + 60 + 60 + 1000,
     maxAge: Date.now() + 12 + 60 + 60 + 1000,
@@ -49,6 +49,7 @@ app.use(flash());
 
 app.use((req, res, next) => {
   res.locals.success = req.flash("success");
+  res.locals.error = req.flash("error");
   next();
 });
 
