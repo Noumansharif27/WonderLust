@@ -11,4 +11,4 @@ const userSchema = new Schema({
 
 User.plugin(passportLocalMongoose);
 
-module.exports = Model.mongoose(("user", userSchema));
+module.exports = Model.mongoose(("user", userSchema)); // user model
