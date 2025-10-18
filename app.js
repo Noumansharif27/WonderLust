@@ -67,6 +67,16 @@ app.get("/", (req, res) => {
   res.send("Welcome to index route");
 });
 
+app.get("/demouser", async (req, res) => {
+  let fakeUser = new User({
+    email: "helloworld@gmail.com",
+    username: "Ali",
+  });
+
+  const demoUser = await User.register(fakeUser, "helloworld");
+  res.send(demoUser);
+});
+
 app.use("/listings", listing);
 app.use("/listings/:id/reviews", review);
 

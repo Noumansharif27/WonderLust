@@ -302,5 +302,19 @@ passport.serializeUser(User.serializeUser());
 Storing the unsaved user information or moving it into the storage.
 
 ```js
-passport, deserializeUser(User.deserializeUser());
+passport.deserializeUser(User.deserializeUser());
+```
+
+**Creating a demo user:**
+
+```js
+app.get("/demouser", async (req, res) => {
+  let fakeUser = new User({
+    email: "helloworld@gmail.com",
+    username: "Ali",
+  });
+
+  const demoUser = await User.register(fakeUser, "helloworld"); // Registering the user
+  res.send(demoUser);
+});
 ```
