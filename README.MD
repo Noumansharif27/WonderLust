@@ -265,8 +265,42 @@ Password salting is a technique to protect passwords stored in the database by a
 
 ## Passport:
 
+A npm package that helps to authenticate and aurhorize the users.
+
+`Installation: `
+
 ```bash
 npm i passport
 npm i passport-local
 npm i passport-local-mongoose
+```
+
+`Usage`
+
+```js
+app.use(passport.initialize());
+```
+
+initilizing the passport middleware before using it.
+
+```js
+app.use(passport.session());
+```
+
+A web browser needs the ability to identify the user as they browse through page to page, this series of request and response, each associates with the same user and sae browser is know a session.
+
+```js
+passport.use(new LocalStratey(User.authenticate()));
+```
+
+Using passport middleware and local strategy to authenticate the user(login/signup)
+
+```js
+passport.serializeUser(User.serializeUser());
+```
+
+Storing the unsaved user information or moving it into the storage.
+
+```js
+passport, deserializeUser(User.deserializeUser());
 ```

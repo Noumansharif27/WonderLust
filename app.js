@@ -8,6 +8,9 @@ const listing = require("./routes/listing.js");
 const review = require("./routes/review.js");
 const session = require("express-session");
 const flash = require("connect-flash");
+const passport = require("passport");
+const LocalStratey = require("passport-local");
+const User = require("./models/user.js");
 
 const app = express();
 const PORT = 3000;
@@ -46,6 +49,13 @@ async function main() {
 
 app.use(session(sessionOptions));
 app.use(flash());
+
+app.use(passport.initialize());
+app.use(passport.session()); // Required so that passport should know how is accessing the web even after changing the tab
+passport.use(new LocalStratey(User.authenticate())); // Authenticating (login/signup) user
+
+passport.serializeUser(User.serializeUser()); // storing user information or moving the in a session
+passport.deserializeUser(User.deserializeUser());
 
 app.use((req, res, next) => {
   res.locals.success = req.flash("success");
