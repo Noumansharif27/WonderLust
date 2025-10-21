@@ -199,6 +199,22 @@ This makes all parameters from the parent route (like `:id`) available as `req.p
 **How does it work now?**
 With`mergeParams: true`, when a request comes to `/listings/:id/reviews`, the `id` parameter is accessible in the reviews router. This allows us to correctly find the listing, add or delete reviews, and redirect users as needed. The review routes now work as expected, and the code is cleaner and more modular.
 
+```js
+app.get("/register", (req, res) => {
+  const { name = "anonymous" } = req.query; // Getting an input of name from user if null assigning it anonymous.
+  req.session.name = name; // storing the name into the current session.
+  req.flash("success", "user added successfully!"); // Making a flash message
+  res.send(`Hello ${name}`);
+});
+
+app.get("/hello", (req, res) => {
+  console.log(req.flash("success")); // consoling the flash message from the previous route
+  res.render("index.ejs", { name: req.session.name }); // rendring a page and passing the input name.
+});
+```
+
+In the above code we created 2 routes, one is taking an input(a name) and the other is printing it out to the user on the next page. The lesson here is how we were able to remember the user name even after going to the next page & accordingly we create a custom flash message and consoling it in the terminal.
+
 ## connect-falsh (nodeJS package)
 
 Flash is used to temporary display specific messge based on the input by the user, it gets cleared once the browser gets refresh or within some specific time.
