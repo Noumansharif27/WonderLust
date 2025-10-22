@@ -199,6 +199,41 @@ This makes all parameters from the parent route (like `:id`) available as `req.p
 **How does it work now?**
 With`mergeParams: true`, when a request comes to `/listings/:id/reviews`, the `id` parameter is accessible in the reviews router. This allows us to correctly find the listing, add or delete reviews, and redirect users as needed. The review routes now work as expected, and the code is cleaner and more modular.
 
+## Cookies and Session:
+
+`Cookies` is a small piece of data(a name/value pair) that a server asks a user's browser to store and send back with subsequent request to the same site, ookies let servers maintain state HTTPS's stateless requests.
+
+`Session` when someone open a perticular website, it is said a session is started, and until the user logout from the website(if loged-in) or close it the session is active, we use cookies to remember that the user session is active while the user is browsing the website, session helps us to remember the user even after he browse from page to page, without session we can't remember that it was the same user or not.
+
+## Express-Session:
+
+```bash
+npm i express-session
+```
+
+````js
+const express = require("express");
+const session = require("express-session");
+
+
+const sessionOptions = {
+  secret: "mysupersecretcode" // it should be a character of string unreadable to the human eye.
+   resave: false,
+  saveUninitialized: true, // The session safe the changes even if they haven't done something.
+  cookie: {
+    expires: Date.now() + 7 + 60 + 60 + 1000,
+    maxAge: Date.now() + 12 + 60 + 60 + 1000,
+    httpOnly: true,
+  },
+}
+`
+
+`resave: true` Save the data in a session everytime, regardless of that wether the user had changed something or not.
+`resave: false` Save the data in a session if the user have changed something.
+
+`saveUninitialized: true:` Create a local storage once the session is started, regaredless of wether the user had put something init or not.
+`saveUninitialized: false:` Create a local storage everytime, regaredless of wether the user had put something init or not.
+
 ```js
 app.get("/register", (req, res) => {
   const { name = "anonymous" } = req.query; // Getting an input of name from user if null assigning it anonymous.
@@ -211,7 +246,7 @@ app.get("/hello", (req, res) => {
   console.log(req.flash("success")); // consoling the flash message from the previous route
   res.render("index.ejs", { name: req.session.name }); // rendring a page and passing the input name.
 });
-```
+````
 
 In the above code we created 2 routes, one is taking an input(a name) and the other is printing it out to the user on the next page. The lesson here is how we were able to remember the user name even after going to the next page & accordingly we create a custom flash message and consoling it in the terminal.
 
