@@ -226,6 +226,8 @@ const sessionOptions = {
     httpOnly: true,
   },
 }
+
+app.use(session(sessionOptions));
 ```
 
 `resave: true` Save the data in a session everytime, regardless of that wether the user had changed something or not.
