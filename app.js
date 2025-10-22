@@ -70,10 +70,13 @@ app.get("/", (req, res) => {
 app.get("/demouser", async (req, res) => {
   let fakeUser = new User({
     email: "helloworld@gmail.com",
-    username: "Ali",
+    username: "Hamad",
   });
 
   const demoUser = await User.register(fakeUser, "helloworld");
+
+  const user = await User.find();
+  // console.log(user);
   res.send(demoUser);
 });
 

@@ -365,10 +365,12 @@ passport.deserializeUser(User.deserializeUser());
 app.get("/demouser", async (req, res) => {
   let fakeUser = new User({
     email: "helloworld@gmail.com",
-    username: "Ali",
+    username: "Hamad",
   });
 
   const demoUser = await User.register(fakeUser, "helloworld"); // Registering the user
   res.send(demoUser);
 });
 ```
+
+If we try to re-register the user again with the same username we will always get an error from DB.
