@@ -226,7 +226,7 @@ const sessionOptions = {
     httpOnly: true,
   },
 }
-`
+```
 
 `resave: true` Save the data in a session everytime, regardless of that wether the user had changed something or not.
 `resave: false` Save the data in a session if the user have changed something.
