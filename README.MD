@@ -211,7 +211,7 @@ With`mergeParams: true`, when a request comes to `/listings/:id/reviews`, the `i
 npm i express-session
 ```
 
-````js
+```js
 const express = require("express");
 const session = require("express-session");
 
@@ -246,7 +246,7 @@ app.get("/hello", (req, res) => {
   console.log(req.flash("success")); // consoling the flash message from the previous route
   res.render("index.ejs", { name: req.session.name }); // rendring a page and passing the input name.
 });
-````
+```
 
 In the above code we created 2 routes, one is taking an input(a name) and the other is printing it out to the user on the next page. The lesson here is how we were able to remember the user name even after going to the next page & accordingly we create a custom flash message and consoling it in the terminal.
 
