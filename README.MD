@@ -374,3 +374,90 @@ app.get("/demouser", async (req, res) => {
 ```
 
 If we try to re-register the user again with the same username we will always get an error from DB.
+
+## Login/signUp:
+
+using passport we can sign a user into db and hash their passowrd, and also we can login them.
+
+`Defining a user module:`
+
+```js
+const mongoose = require("mongoose");
+const { Schema } = mongoose;
+const passportLocalMongoose = require("passport-local-mongoose");
+
+const userSchema = new Schema({
+  email: {
+    type: String,
+    required: true,
+  },
+});
+
+userSchema.plugin(passportLocalMongoose); // Initilizing passport to mongoDB specific.
+
+module.exports = mongoose.model("User", userSchema);
+```
+
+we don't need to define `username` & `password` fields for user model, as passport has already defined it.
+
+```js
+const express = require("express");
+const router = express.Router();
+const User = require("../models/user.js"); // user model
+const asyncWrap = require("../utils/asyncWrap.js");
+const passport = require("passport");
+
+// rendering the signup route
+router.get("/signup", (req, res) => {
+  res.render("users/signup.ejs");
+});
+
+// registering the user
+router.post(
+  "/signup",
+  asyncWrap(async (req, res) => {
+    try {
+      const { username, password, email } = req.body;
+
+      const newUser = new User({ username, email });
+      const registeredUser = await User.register(newUser, password);
+      console.log(registeredUser);
+      req.flash("success", "Welcome to Wonderlust!");
+      res.redirect("/listings");
+    } catch (err) {
+      // if we get unexpectedly some passport authentication error we would catch them without crashing
+      console.log(err);
+      res.redirect("/signup");
+    }
+  })
+);
+
+// rendering the login route
+router.get("/login", (req, res) => {
+  res.render("users/login.ejs");
+});
+
+router.post(
+  "/login",
+  passport.authenticate("local", {
+    failureRedirect: "/login",
+    failerFlash: true,
+  }),
+  asyncWrap(async (req, res) => {
+    const { username, password } = req.body;
+    req.flash("success", "Welcome back to Wonderlust!");
+    res.redirect("/listings");
+  })
+);
+
+module.exports = router;
+```
+
+```js
+passport.authenticate("local", {
+  failureRedirect: "/login",
+  failerFlash: true,
+});
+```
+
+it is a middleware use to authenticate the user, by getting the info wether he already exists in the database or not.
