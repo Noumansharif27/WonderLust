@@ -4,13 +4,15 @@ const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const ExpressError = require("./utils/ExpressError.js");
-const listing = require("./routes/listing.js");
-const review = require("./routes/review.js");
 const session = require("express-session");
 const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStratey = require("passport-local");
 const User = require("./models/user.js");
+
+const listingRoute = require("./routes/listing.js");
+const reviewRoute = require("./routes/review.js");
+const userRoute = require("./routes/user.js");
 
 const app = express();
 const PORT = 3000;
@@ -80,8 +82,9 @@ app.get("/demouser", async (req, res) => {
   res.send(demoUser);
 });
 
-app.use("/listings", listing);
-app.use("/listings/:id/reviews", review);
+app.use("/listings", listingRoute);
+app.use("/listings/:id/reviews", reviewRoute);
+app.use("/", userRoute);
 
 app.all("/*splat", (req, res, next) => {
   next(new ExpressError(404, "Page not found!"));
