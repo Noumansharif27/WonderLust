@@ -461,3 +461,7 @@ passport.authenticate("local", {
 ```
 
 it is a middleware use to authenticate the user, by getting the info wether he already exists in the database or not.
+
+## req.isAuthenticated();
+
+It is a passport method helps to authenticate the user. It ensure that in the current session the user should be loggeIn
