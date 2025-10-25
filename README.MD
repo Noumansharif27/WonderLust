@@ -465,3 +465,21 @@ it is a middleware use to authenticate the user, by getting the info wether he a
 ## req.isAuthenticated();
 
 It is a passport method helps to authenticate the user. It ensure that in the current session the user should be loggeIn
+
+```js
+module.exports.isLoggedIn = (req, res, next) => {
+  if (!req.isAuthenticated()) {
+    req.flash("error", "You have to be loggedin fist!");
+    return res.redirect("/login");
+  }
+  next();
+};
+```
+
+In this middleware we created, we apply the authentication of wether the user is loggedIN or not `req.isAuthenticated()` is a `passport` method.
+
+`req` this property in the route store the user in `req.user` when someone login making authentication easy.
+
+When you use Passport with sessions, after a user successfully logs in Passport stores an identifier in the session (via `serializeUser`) and later turns that identifier back into a user object (via `deserializeUser`).
+
+On each authenticated request Passport runs `deserializeUser` and places the resulting user object on req.user. So req.user is the currently authenticated user for that request.
