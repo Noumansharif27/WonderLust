@@ -483,3 +483,22 @@ In this middleware we created, we apply the authentication of wether the user is
 When you use Passport with sessions, after a user successfully logs in Passport stores an identifier in the session (via `serializeUser`) and later turns that identifier back into a user object (via `deserializeUser`).
 
 On each authenticated request Passport runs `deserializeUser` and places the resulting user object on req.user. So req.user is the currently authenticated user for that request.
+
+## Logout(req.logout):
+
+To logout from the user we have a passport method of `req.logout` it uses `serializeUser` & `deserializeUser` to delete the user from the current session and logs him out.
+
+```js
+router.get("/logout", (req, res, next) => {
+  req.logout((err) => {
+    if (err) {
+      next(err);
+    }
+
+    req.flash("success", "You logout successfully!");
+    res.redirect("/listings");
+  });
+});
+```
+
+there is an error callback in the logout which enables us to catch an error if any, and after successfully logout from the session we will be flashing a message and redirecting to the listings route.
