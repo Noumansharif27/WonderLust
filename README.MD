@@ -502,3 +502,19 @@ router.get("/logout", (req, res, next) => {
 ```
 
 there is an error callback in the logout which enables us to catch an error if any, and after successfully logout from the session we will be flashing a message and redirecting to the listings route.
+
+## Login auto after Signup:
+
+As normal authentication works like as soon as you signup, you automatically get logedin. Passport has a method of `req.login(userInfo, errorCallBack);` that's helps us to achieve the exact same thing.
+
+```js
+req.login(registeredUser, (err) => {
+  if (err) {
+    next(err);
+  }
+  req.flash("success", "Welcome to Wonderlust!");
+  res.redirect("/listings");
+});
+```
+
+In th above codeSippet we can see the `req.login()` method used to login the user automatically as he signup to the platform, the fist parameter we give is the current user information and the second is a call back which has a parameter of an `error`, it is very usefull as we maygets an error by any reason which will helps to identify the cause.
