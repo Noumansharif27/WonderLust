@@ -37,6 +37,8 @@
           <button class="btn btn-danger">Delete</button>
         </form>
       </div>
+      <% if(currentUser && currentUser._id.equals(listing.owner._id)) { %> <% }
+      %>
     </div>
   </div>
 
