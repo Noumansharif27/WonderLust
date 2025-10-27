@@ -518,3 +518,7 @@ req.login(registeredUser, (err) => {
 ```
 
 In th above codeSippet we can see the `req.login()` method used to login the user automatically as he signup to the platform, the fist parameter we give is the current user information and the second is a call back which has a parameter of an `error`, it is very usefull as we maygets an error by any reason which will helps to identify the cause.
+
+## Redirecting after login:
+
+If a user was accessing a route which has a condition/restriction on that the user should be login first, i that case we have to remember the exact same route so make it convinent.

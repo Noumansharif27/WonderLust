@@ -47,9 +47,9 @@ router.post(
   asyncWrap(async (req, res) => {
     const { username, password } = req.body;
     req.flash("success", "Welcome back to Wonderlust!");
-    const redirectUrl = req.session.redirectUrl || "/listings";
+    const redirectUrl = res.locals.redirectUrl || "/listings";
     console.log(redirectUrl);
-    res.redirect(res.locals.redirectUrl);
+    res.redirect(redirectUrl);
   })
 );
 
