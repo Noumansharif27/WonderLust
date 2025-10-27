@@ -14,11 +14,16 @@
         />
       </div>
       <p class="card-text">
-        <strong><%= listing.description %></strong> <br />
-        <span style="text-decoration: line-through; opacity: 0.7">Rs: 85</span>
-        &#x20A8; <%= listing.price.toLocaleString("en-pk") %>
-        <br /><%= listing.location %> <br /><%= listing.country %>
+        <strong>Owned By:</strong> <%= listing.owner.username %>
       </p>
+      <p class="card-text"><%= listing.description %></p>
+      <p class="card-text" style="text-decoration: line-through; opacity: 0.7">
+        Rs: 85 &#x20A8;
+      </p>
+
+      <p class="card-text"><%= listing.price.toLocaleString("en-pk") %></p>
+      <p class="card-text"><%= listing.location %></p>
+      <p class="card-text"><%= listing.country %></p>
 
       <div class="btns">
         <a href="/listings/<%= listing._id %>/edit" class="btn btn-success"

@@ -41,6 +41,7 @@ router.post(
   validateListing,
   asyncWrap(async (req, res, next) => {
     const listing = new Listing(req.body.listing);
+    listing.owner = req.user._id;
     await listing.save();
     req.flash("success", "Listing created successfully");
     res.redirect("/listings");
@@ -52,11 +53,14 @@ router.get(
   "/:id",
   asyncWrap(async (req, res) => {
     const { id } = req.params;
-    const listing = await Listing.findById(id).populate("reviews");
+    const listing = await Listing.findById(id)
+      .populate("reviews")
+      .populate("owner");
     if (!listing) {
       req.flash("error", "Listing you're looking for doesn't exists");
       return res.redirect("/listings");
     }
+
     res.render("listings/show.ejs", { listing });
   })
 );

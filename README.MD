@@ -595,3 +595,119 @@ module.exports.saveRedirectUrl = (req, res, next) => {
 ```
 
 As we can see that we save the requested url from session to the locals, whcih will helps us to redirect as passport does not rest the `responce` object, But we have to make sure that we save the url from session before the passport rest the session as the url will be changed to the default we set to be redirected after the user login, to achive that we save the url before login i the user/applying the passport method in the request.
+
+## Listing Owner:
+
+Applying Authorization in the app. There should be an owner to every listing created and to every review submited.
+
+we have to define an owner field in the listing model so that it can store who their owner is, and for every listing there should be only one onwer of it.
+
+```js
+const mongoose = require("mongoose");
+const { Schema } = mongoose;
+const Review = require("./review.js");
+
+const listingSchema = new Schema({
+  title: {
+    type: String,
+    required: true,
+  },
+  description: {
+    type: String,
+    required: true,
+  },
+  image: {
+    type: String,
+    default: "/assets/default-listing.jpg",
+    set: (v) => (v === "" ? "/assets/default-listing.jpg" : v),
+  },
+  price: {
+    type: Number,
+    required: true,
+  },
+  location: {
+    type: String,
+    required: true,
+  },
+  country: {
+    type: String,
+  },
+  reviews: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Review",
+    },
+  ],
+
+  // Owner field
+  owner: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+  },
+});
+
+listingSchema.post("findOneAndDelete", async (listing) => {
+  if (listing) {
+    await Review.deleteMany({ _id: { $in: listing.reviews } });
+  }
+});
+
+const listing = mongoose.model("listing", listingSchema);
+module.exports = listing;
+```
+
+In the above code we can see that we had added the `owner` field in the model and it store the only id of it and pointing to another document which has the ID init.
+
+```js
+const mongoose = require("mongoose");
+const Listing = require("../models/listing.js");
+let data = require("./data.js");
+
+const MONGO_URL = "mongodb://127.0.0.1:27017/wonderlust";
+
+main()
+  .then(() => {
+    console.log("connected to DB.");
+    return initilizeData(); // adding demo data
+  })
+  .catch((ERR) => {
+    console.log(ERR);
+  });
+
+async function main() {
+  await mongoose.connect(MONGO_URL);
+}
+
+async function initilizeData() {
+  await Listing.deleteMany({}); // delete the previous data.
+  data = data.map((obj) => ({ ...obj, owner: "68f8afe13386633916b05a74" }));
+  await Listing.insertMany(data);
+  console.log(data);
+
+  console.log("Data was initilizes.");
+}
+```
+
+Above code has a function labeled as `initilizaData` which deleted the previous demo data and reinitilize the new one, so before initilizing the data we specified a single user exists in our current database and using their `id` we announced them the owner of these listings.
+
+`data = data.map((obj) => ({ ...obj, owner: "68f8afe13386633916b05a74" }));` the map function is an arrayFunction which copy the provided array and make chages to its copy while not even touching the original one,, after makig chages to the array by going through each of its element we replace the array with the original one and then finally initilizing it.
+
+so now we have an owner for each of our existing listings, there is a missing logic which is that we have to make sure that we assign the owner to all of our new created listings.
+
+```js
+// Post listing route
+router.post(
+  "/",
+  isLoggedIn,
+  validateListing,
+  asyncWrap(async (req, res, next) => {
+    const listing = new Listing(req.body.listing);
+    listing.owner = req.user._id;
+    await listing.save();
+    req.flash("success", "Listing created successfully");
+    res.redirect("/listings");
+  })
+);
+```
+
+In the above line of code, we inplemented the functionality of adding the owner to each of the newlyCreated listings, the logic says that when the listing is being created there is always a user login whome has the ability of performing the work, so as we know that the passport store the user in the `req.user` once they login into the platform so by using this we can get what we want. `listing.owner = req.user._id;` this lines store the current session user into the newly created listings before saving it into the database, which make is more convinent as logical.
