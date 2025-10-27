@@ -521,4 +521,77 @@ In th above codeSippet we can see the `req.login()` method used to login the use
 
 ## Redirecting after login:
 
-If a user was accessing a route which has a condition/restriction on that the user should be login first, i that case we have to remember the exact same route so make it convinent.
+If a user was accessing a route which has a condition/restriction on that the user has to be login first, in that case we have to remember the exact same route so make it convinent for the use, cause after login to the platform user expect to be redirected to the exact route. It is more coentional and user friendly as well.
+
+```js
+// Login router
+router.post(
+  "/login",
+  saveRedirectUrl,
+  passport.authenticate("local", {
+    failureRedirect: "/login",
+    failerFlash: true,
+  }),
+  asyncWrap(async (req, res) => {
+    const { username, password } = req.body;
+    req.flash("success", "Welcome back to Wonderlust!");
+
+    res.redirect(req.session.redirectUrl);
+  })
+);
+
+// Login middleware
+module.exports.isLoggedIn = (req, res, next) => {
+  if (!req.isAuthenticated()) {
+    req.session.redirectUrl = req.originalUrl; // saving the route to the current session-storge.
+    req.flash("error", "You have to be login fist!");
+    return res.redirect("/login");
+  }
+  next();
+};
+```
+
+In the above code we ca see a property labeled as `req.originalUrl` it is a `req` object's property which stores the current request requestd path.It is very helpfull as it enables the server to know the exact `url` the user requested for. and in the middleware we can see that we store that url into the current session, making server able to redirect to the url once the user login.
+
+**‼ There is a flow in the code as after loging in the user, passport run a programm which resets the req object and so we cannot remember the session as it was updated as well. we have to make another way to remember the requested path of user before they login.**
+
+### ♻ Solution
+
+```js
+// login Route
+router.post(
+  "/login",
+  saveRedirectUrl,
+  passport.authenticate("local", {
+    failureRedirect: "/login",
+    failerFlash: true,
+  }),
+  asyncWrap(async (req, res) => {
+    const { username, password } = req.body;
+    req.flash("success", "Welcome back to Wonderlust!");
+    const redirectUrl = res.locals.redirectUrl || "/listings";
+    console.log(redirectUrl);
+    res.redirect(redirectUrl);
+  })
+);
+
+// Login middleware
+module.exports.isLoggedIn = (req, res, next) => {
+  if (!req.isAuthenticated()) {
+    req.session.redirectUrl = req.originalUrl;
+    req.flash("error", "You have to be login fist!");
+    return res.redirect("/login");
+  }
+  next();
+};
+
+// Saving the url to locals
+module.exports.saveRedirectUrl = (req, res, next) => {
+  if (req.session.redirectUrl) {
+    res.locals.redirectUrl = req.session.redirectUrl;
+  }
+  next();
+};
+```
+
+As we can see that we save the requested url from session to the locals, whcih will helps us to redirect as passport does not rest the `responce` object, But we have to make sure that we save the url from session before the passport rest the session as the url will be changed to the default we set to be redirected after the user login, to achive that we save the url before login i the user/applying the passport method in the request.
