@@ -711,3 +711,21 @@ router.post(
 ```
 
 In the above line of code, we inplemented the functionality of adding the owner to each of the newlyCreated listings, the logic says that when the listing is being created there is always a user login whome has the ability of performing the work, so as we know that the passport store the user in the `req.user` once they login into the platform so by using this we can get what we want. `listing.owner = req.user._id;` this lines store the current session user into the newly created listings before saving it into the database, which make is more convinent as logical.
+
+## ⚠ Listing Authorization:
+
+Every listing should have authorization on it, so that only their owner can edit and delete the listing, we have to implement the functionality of that so to make sure that not everyone can edit and delete someone elso listings.
+
+```js
+module.exports.isOwner = async (req, res, next) => {
+  const { id } = req.params;
+  const listing = await Listing.findById(id);
+  if (!listing.owner._id.equals(res.locals.currentUser._id)) {
+    req.flash("error", "You are not the owner of this listing!");
+    return res.redirect(`/listings/${id}`);
+  }
+  next();
+};
+```
+
+The `isOnwer` middleware helps us to know that wether the current user is also the owner of this perticular listing or not, by this logic we can sets restrictions on the users so that they can only update and delete their own listings and not someone else.
