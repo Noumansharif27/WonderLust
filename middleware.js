@@ -30,9 +30,10 @@ module.exports.isOwner = async (req, res, next) => {
 };
 
 module.exports.isReviewAuthor = async (req, res, next) => {
-  const { id, revirewId } = req.params;
-  const revirew = await Review.findById(revirewId);
-  if (!revirew.owner._id.equals(res.locals.currentUser._id)) {
+  const { id, reviewsId } = req.params;
+  const review = await Review.findById(reviewsId);
+  console.log(review);
+  if (!review.author._id.equals(res.locals.currentUser._id)) {
     req.flash("error", "You are not the author of this review!");
     return res.redirect(`/listings/${id}`);
   }

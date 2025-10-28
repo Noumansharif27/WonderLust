@@ -10,20 +10,20 @@ const {
 } = require("../middleware.js");
 
 // Reviews
+
 // Post review
 router.post(
   "/",
   isLoggedIn,
   validatingReview,
-  isReviewAuthor,
   asyncWrap(async (req, res) => {
     const { id } = req.params;
     const listing = await Listing.findById(id);
     console.log(req.params);
 
     const newReview = new Review(req.body.review);
+    newReview.author = req.user._id;
     listing.reviews.push(newReview);
-
     await newReview.save();
     await listing.save();
 

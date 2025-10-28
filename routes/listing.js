@@ -44,7 +44,7 @@ router.get(
       req.flash("error", "Listing you're looking for doesn't exists");
       return res.redirect("/listings");
     }
-
+    // console.log(listing);
     res.render("listings/show.ejs", { listing });
   })
 );
