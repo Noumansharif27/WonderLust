@@ -70,18 +70,18 @@ app.get("/", (req, res) => {
   res.send("Welcome to index route");
 });
 
-app.get("/demouser", async (req, res) => {
-  let fakeUser = new User({
-    email: "helloworld@gmail.com",
-    username: "Hamad",
-  });
+// app.get("/demouser", async (req, res) => {
+//   let fakeUser = new User({
+//     email: "helloworld@gmail.com",
+//     username: "Hamad",
+//   });
 
-  const demoUser = await User.register(fakeUser, "helloworld");
+//   const demoUser = await User.register(fakeUser, "helloworld");
 
-  const user = await User.find();
-  // console.log(user);
-  res.send(demoUser);
-});
+//   const user = await User.find();
+//   // console.log(user);
+//   res.send(demoUser);
+// });
 
 app.use("/listings", listingRoute);
 app.use("/listings/:id/reviews", reviewRoute);
