@@ -1,17 +1,17 @@
 const Listing = require("../models/listing.js");
 
-module.exports.indexRoute = async (req, res) => {
+module.exports.index = async (req, res) => {
   const allListings = await Listing.find({});
   res.render("listings/index.ejs", { allListings });
 };
 
 // New Route
-module.exports.newRoute = (req, res) => {
+module.exports.renderNewForm = (req, res) => {
   res.render("listings/new.ejs");
 };
 
 // Post Route
-module.exports.postRoute = async (req, res, next) => {
+module.exports.postNewListings = async (req, res, next) => {
   const listing = new Listing(req.body.listing);
   listing.owner = req.user._id;
   await listing.save();
@@ -20,7 +20,7 @@ module.exports.postRoute = async (req, res, next) => {
 };
 
 // Show Route
-module.exports.showRoute = async (req, res) => {
+module.exports.showListing = async (req, res) => {
   const { id } = req.params;
   const listing = await Listing.findById(id)
     .populate({ path: "reviews", populate: { path: "author" } })
@@ -34,7 +34,7 @@ module.exports.showRoute = async (req, res) => {
 };
 
 // Edit Route
-module.exports.editRoute = async (req, res) => {
+module.exports.editListing = async (req, res) => {
   const { id } = req.params;
   const listing = await Listing.findById(id);
   if (!listing) {
@@ -46,7 +46,7 @@ module.exports.editRoute = async (req, res) => {
 };
 
 //  Put Route
-module.exports.putRoute = async (req, res) => {
+module.exports.updateListing = async (req, res) => {
   const { id } = req.params;
 
   await Listing.findByIdAndUpdate(id, { ...req.body.listing });
@@ -55,7 +55,7 @@ module.exports.putRoute = async (req, res) => {
 };
 
 // Delete Route
-module.exports.deleteRoute = async (req, res) => {
+module.exports.deleteListing = async (req, res) => {
   const { id } = req.params;
   const listing = await Listing.findByIdAndDelete(id);
 
