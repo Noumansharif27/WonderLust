@@ -20,7 +20,7 @@ router.post(
 );
 
 // show listing route
-router.get("/:id", asyncWrap(controller.showRoute));
+router.get("/:id", asyncWrap(controller.showListing));
 
 // Edit route
 router.get("/:id/edit", isLoggedIn, isOwner, asyncWrap(controller.editListing));
