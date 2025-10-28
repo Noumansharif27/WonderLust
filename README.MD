@@ -729,3 +729,15 @@ module.exports.isOwner = async (req, res, next) => {
 ```
 
 The `isOnwer` middleware helps us to know that wether the current user is also the owner of this perticular listing or not, by this logic we can sets restrictions on the users so that they can only update and delete their own listings and not someone else.
+
+## MVC (Model, Views, Controllers):
+
+It is a way of writtig code in development, it is widely used in the industry on a high level.
+
+- `Model` is for keepig all the `database` related files.
+- `views`: keeping all the frontend related files/templates.
+- `Controllers`: keeping all the backend related coding files.
+
+### router.route();
+
+This property is use to make our code more reliable, it stores all the different request for a perticular same route. making the code more understandable and breath taking for others.
