@@ -44,8 +44,6 @@
 
   <hr />
   <div class="col-8">
-    <% if(currentUser ) { %>
-
     <h3>Reviews</h3>
 
     <form
@@ -55,15 +53,44 @@
       class="needs-validation"
     >
       <div>
-        <label for="rating" class="form-label">Rating</label>
-        <input
-          type="range"
-          class="form-range"
-          min="1"
-          max="5"
-          id="rating"
-          name="review[rating]"
-        />
+        <fieldset class="starability-checkmark">
+          <legend>First rating:</legend>
+          <input
+            type="radio"
+            id="first-rate1"
+            name="review[rating]"
+            value="1"
+          />
+          <label for="first-rate1" title="Terrible">1 star</label>
+          <input
+            type="radio"
+            id="first-rate2"
+            name="review[rating]"
+            value="2"
+          />
+          <label for="first-rate2" title="Not good">2 stars</label>
+          <input
+            type="radio"
+            id="first-rate3"
+            name="review[rating]"
+            value="3"
+          />
+          <label for="first-rate3" title="Average">3 stars</label>
+          <input
+            type="radio"
+            id="first-rate4"
+            name="review[rating]"
+            value="4"
+          />
+          <label for="first-rate4" title="Very good">4 stars</label>
+          <input
+            type="radio"
+            id="first-rate5"
+            name="review[rating]"
+            value="5"
+          />
+          <label for="first-rate5" title="Amazing">5 stars</label>
+        </fieldset>
       </div>
 
       <div class="mt-2 mb-3">
@@ -83,7 +110,6 @@
       <button class="btn btn-outline-dark">Submit</button>
     </form>
     <hr />
-    <% } %>
   </div>
 
   <div class="col-8 offset-2">
@@ -94,7 +120,12 @@
         <div class="card-body">
           <h5 class="card-title">@<%= review.author.username %></h5>
           <p class="card-text"><%= review.comment %></p>
-          <p class="card-text"><%= review.rating %> &starf;</p>
+          <p
+            class="starability-result card-text"
+            data-rating="<%= review.rating %>"
+          >
+            Rated: <%= review.rating %> stars
+          </p>
         </div>
 
         <form
