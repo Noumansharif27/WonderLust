@@ -804,3 +804,5 @@ console.log(process.env.SECRET);
 ```
 
 by using this we can use our `.env` file and access any variable through `process.env.Variable_Name`.
+
+`.config() :configuring something meas conecting something`
