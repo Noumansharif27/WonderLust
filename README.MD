@@ -785,3 +785,22 @@ upload.single("listing[image]");
 ```
 
 this line is used to upload the file with the field name of `listing[image]`
+
+## .env:
+
+This file is used to save the secret queries and other API keys and credentials. we can use `CAPITAL` or `small` letters but capital are `recommended`. iIt uses `key=value` format to store variables.
+
+`e.g.`
+
+```
+SECRET=mysupersecretishelloworld
+```
+
+we can't directly use this file, to make it usable we have to install an npm package `dotenv` which will allow us to use this file.
+
+```js
+require("dotenv").config();
+console.log(process.env.SECRET);
+```
+
+by using this we can use our `.env` file and access any variable through `process.env.Variable_Name`.

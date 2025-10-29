@@ -1,3 +1,8 @@
+// requiring the .env file and using it once in production
+if (process.env_NODE_ENV != "production") {
+  require("dotenv").config();
+}
+
 const express = require("express");
 const mongoose = require("mongoose");
 const path = require("path");
