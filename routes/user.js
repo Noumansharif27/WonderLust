@@ -22,6 +22,6 @@ router.post(
   asyncWrap(controller.loginUser)
 );
 
-router.get("/logout", controller.loginUser);
+router.get("/logout", controller.logout);
 
 module.exports = router;
