@@ -15,11 +15,10 @@ router
   // .post(isLoggedIn, validateListing, asyncWrap(controller.postNewListings));
   .post(
     isLoggedIn,
+    // multer middleware must NOT be wrapped with asyncWrap — it is a plain middleware
+    upload.single("listing[image]"),
     validateListing,
-    asyncWrap(upload.single("listing[image]"), (req, res) => {
-      const file = req.body;
-      res.send(file);
-    })
+    asyncWrap(controller.postNewListings)
   );
 
 // New listing route
