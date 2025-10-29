@@ -741,3 +741,47 @@ It is a way of writtig code in development, it is widely used in the industry on
 ### router.route();
 
 This property is use to make our code more reliable, it stores all the different request for a perticular same route. making the code more understandable and breath taking for others.
+
+# Advance Features:
+
+From this step we had cover all the essential topics for a full stack app and from nowon we are going to create advance features as we go through.
+
+## Uploading file from frontend:
+
+We use link for the image to upload in our project, but all the other apps takes the image file as an input, we are going to implement that feature.
+
+to be able to upload a file format input from frontend we have to implement the `enctype=multipart/form-data ` in our form so that it can accept the files and we also have to create an input `type=file` field for this .
+
+**‼ The thing is that our server only decode text and links field inputs from the frontend**
+
+```js
+app.use(express.urlencoded({ extended: true }));
+```
+
+to decode the file types of input from frontend we have to use an `npm` package for that.
+
+## Multer :
+
+This npm package helps to decode only `multipart/form-data`, it ignores all the rest of type.
+
+```js
+const multer = require("multer");
+const upload = multer({ dest: "uploads/" });
+
+router.post(
+  isLoggedIn,
+  validateListing,
+  asyncWrap(upload.single("listing[image]"), (req, res) => {
+    const file = req.body;
+    res.send(file);
+  })
+);
+```
+
+In the above code snippet we first require `multer` then we created another variable named as `upload` and sets the destination to our uploading files by `const upload = multer({dest: "uploads/})` it will create an uploads directory and uploads all the file in it which he gets from the frontend.
+
+```js
+upload.single("listing[image]");
+```
+
+this line is used to upload the file with the field name of `listing[image]`
