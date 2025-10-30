@@ -806,3 +806,35 @@ console.log(process.env.SECRET);
 by using this we can use our `.env` file and access any variable through `process.env.Variable_Name`.
 
 `.config() :configuring something meas conecting something`
+
+## Storing images to the cloud:
+
+we are going to create a new featre where we will be uploading our input images by the users into a cloud storage, for this storage opration we are going to use `cloudinary`
+
+```bash
+npm i cloudinary multer-storage-cloudinary
+```
+
+```js
+const cloudinary = require("cloudinary").v2;
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUD_API_KEY,
+  api_secret: process.env.CLOUD_API_SECRET,
+});
+
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  params: {
+    folder: "wonderlust_DEV",
+    allowedFormats: ["png", "jpg", "jpeg"],
+  },
+});
+
+module.exports = {
+  cloudinary,
+  storage,
+};
+```
