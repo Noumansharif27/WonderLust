@@ -6,6 +6,7 @@
     method="post"
     class="form needs-validation"
     novalidate
+    enctype="multipart/form-data"
   >
     <h2>Edit From</h2>
 
@@ -39,17 +40,13 @@
     </div>
 
     <div>
-      <label class="form-label" for="image">Image Url</label>
+      <label class="form-label" for="image">Update Image Url</label>
       <input
         class="form-control"
-        type="text"
+        type="file"
         name="listing[image]"
-        value="<%= listing.image %>"
         id="image"
-        required
       />
-      <div class="valid-feedback">Looks good!</div>
-      <div class="invalid-feedback">Duh Dude!</div>
     </div>
 
     <div>

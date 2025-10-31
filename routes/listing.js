@@ -30,7 +30,12 @@ router
 // Edit route
 router
   .route("/:id/edit")
-  .get(isLoggedIn, isOwner, asyncWrap(controller.editListing));
+  .get(
+    isLoggedIn,
+    isOwner,
+    upload.single("listing[image]"),
+    asyncWrap(controller.editListing)
+  );
 
 // Delete Listing Route
 router
