@@ -12,8 +12,12 @@ module.exports.renderNewForm = (req, res) => {
 
 // Post Route
 module.exports.postNewListings = async (req, res, next) => {
+  const { filename } = req.file;
+  const url = req.file.path;
   const listing = new Listing(req.body.listing);
   listing.owner = req.user._id;
+  console.log(url, "...", filename);
+  listing.image = { url, filename };
   await listing.save();
   req.flash("success", "Listing created successfully");
   res.redirect("/listings");
