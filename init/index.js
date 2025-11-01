@@ -19,9 +19,9 @@ async function main() {
 
 async function initilizeData() {
   await Listing.deleteMany({}); // delete the previous data.
-  // data = data.map((obj) => ({ ...obj, owner: "68f8afe13386633916b05a74" }));
+  data = data.map((obj) => ({ ...obj, owner: "68f8afe13386633916b05a74" }));
   //My laptop user id 68ffb2dd615b6fe841f68570
-  data = data.map((obj) => ({ ...obj, owner: "68ffb2dd615b6fe841f68570" }));
+  // data = data.map((obj) => ({ ...obj, owner: "68ffb2dd615b6fe841f68570" }));
   await Listing.insertMany(data);
   console.log(data);
 
