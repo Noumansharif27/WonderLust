@@ -1,5 +1,6 @@
 body {
   position: relative;
+  overflow-x: hidden;
 }
 
 .container {
@@ -58,7 +59,7 @@ nav {
 }
 
 .footer {
-  width: 100%;
+  width: 100dvw;
   height: 10rem;
   display: flex;
   justify-content: center;
@@ -66,7 +67,9 @@ nav {
   padding: 0 2rem;
   position: absolute;
   top: 100%;
+  left: 0;
   margin-top: 1rem;
+  background-color: #000;
 }
 
 footer .f-social-links {
