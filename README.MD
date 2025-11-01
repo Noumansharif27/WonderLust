@@ -811,25 +811,29 @@ by using this we can use our `.env` file and access any variable through `proces
 
 we are going to create a new featre where we will be uploading our input images by the users into a cloud storage, for this storage opration we are going to use `cloudinary`
 
+`package installation:`
+
 ```bash
 npm i cloudinary multer-storage-cloudinary
 ```
 
+`code Snippet: `
+
 ```js
-const cloudinary = require("cloudinary").v2;
-const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const cloudinary = require("cloudinary").v2; // Reguiring the clodinary of version 2
+const { CloudinaryStorage } = require("multer-storage-cloudinary"); // Requiring the multer storage of cloudinary
 
 cloudinary.config({
-  cloud_name: process.env.CLOUD_NAME,
-  api_key: process.env.CLOUD_API_KEY,
-  api_secret: process.env.CLOUD_API_SECRET,
+  cloud_name: process.env.CLOUD_NAME, // setting the cloud_name
+  api_key: process.env.CLOUD_API_KEY, // setting the cloud_api_key
+  api_secret: process.env.CLOUD_API_SECRET, // setting the cloud_api_secret
 });
 
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: {
-    folder: "wonderlust_DEV",
-    allowedFormats: ["png", "jpg", "jpeg"],
+    folder: "wonderlust_DEV", // assigining the cloud folder name
+    allowedFormats: ["png", "jpg", "jpeg"], // setting the allowed format.
   },
 });
 
@@ -838,3 +842,62 @@ module.exports = {
   storage,
 };
 ```
+
+```js
+const multer = require("multer");
+const { storage } = require("../cloudConfig.js");
+const upload = multer({ storage });
+
+router..post("/",
+  isLoggedIn,
+  // This parameter tells the multer which field has the targeed file we have to sore into the cloud
+  upload.single("listing[image]"),
+  validateListing,
+  asyncWrap(async (req, res, next) => {
+  const { filename } = req.file; // accessing the uploaded filename
+  const url = req.file.path; // accessing the actual file url which has stored into the cloudstorage
+  const listing = new Listing(req.body.listing);
+  listing.owner = req.user._id;
+  console.log(url, "...", filename);
+  listing.image = { url, filename }; // assigning the filename and url to local ongo storage.
+  await listing.save();
+  req.flash("success", "Listing created successfully");
+  res.redirect("/listings");
+};
+)
+);
+
+// show listing route  & Put route
+router
+  .put("/:id",
+    isLoggedIn,
+    isOwner,
+    upload.single("listing[image]"),
+    asyncWrap(async (req, res) => {
+    const { id } = req.params;
+    let newListing = await Listing.findByIdAndUpdate(id, { ...req.body.listing });
+
+    if (!newListing) {
+      req.flash("error", "The listing your wants to edit, doesn't exists!");
+      return res.redirect("/listings");
+    }
+
+    // If the req.file is update then save update the image url
+    if (typeof req.file !== "undefined") {
+      let filename = req.file.filename;
+      let url = req.file.path;
+      newListing.image = { url, filename };
+      await newListing.save();
+    }
+    req.flash("success", "Listing edit successfully!");
+    res.redirect(`/listings/${id}`);
+    };)
+  );
+```
+
+<details>
+  <summary>Explination</summary>
+
+In the above code we first require the two package `cloudinary` & `multer-storage-cloudinary` which is use to st store files in cloudiary. after that we cofigured the cloudinary variables which are required to store dat in the cloud as they contain the keys and access to the cloud storage and then we also configure the multer storage to assign the files into the cloud and in the newListing we make sure that each image should be a `file` not a `url` and it stores into the cloudStorage. also in the edit route we make sure that if a user updated the image then it also stores into the cloud and replace with the newOne.
+
+  </details>
