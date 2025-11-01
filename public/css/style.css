@@ -77,3 +77,8 @@ footer .f-social-links {
   gap: 1rem;
   margin-left: 2rem;
 }
+
+#map {
+  height: 400px;
+  width: 800px;
+}

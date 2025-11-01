@@ -3,8 +3,20 @@ const Listing = require("../models/listing.js");
 
 module.exports.createReview = async (req, res) => {
   const { id } = req.params;
-  const listing = await Listing.findById(id);
-  console.log(req.params);
+  const listing = await Listing.findById(id).populate("owner");
+  console.log(listing.owner, ".....", req.user);
+
+  // Ensure both listing owner and current user exist before comparing.
+  // Use req.user._id (set by Passport) — req.user_id is incorrect.
+  if (
+    req.user &&
+    listing.owner &&
+    String(listing.owner._id) === String(req.user._id)
+  ) {
+    console.log("if statement is working.");
+    req.flash("error", "A listing owner cannot add a review!");
+    return res.redirect(`/listings/${id}`);
+  }
 
   const newReview = new Review(req.body.review);
   newReview.author = req.user._id;
@@ -12,7 +24,6 @@ module.exports.createReview = async (req, res) => {
   await newReview.save();
   await listing.save();
 
-  console.log("Review added successfully!");
   req.flash("success", "Review added successfully!");
   res.redirect(`/listings/${id}/`);
 };

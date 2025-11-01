@@ -1,5 +1,7 @@
 <%- layout("layouts/boilerplate") %>
-
+<script>
+  let mapToken = "<%= process.env.MAPBOX_PUBLIC_TOKEN  %>";
+</script>
 <body>
   <div class="row-lg-1 show-card">
     <h2 class="offset-0 col-7">
@@ -94,7 +96,7 @@
         </fieldset>
       </div>
 
-      <div class="mt-2 mb-3">
+      <div class="mt-1 mb-3">
         <label for="comment" class="form-label">Comment</label>
         <textarea
           name="review[comment]"
@@ -146,25 +148,6 @@
     <h2>Where you’ll be</h2>
     <div id="map"></div>
   </div>
-
-  <script>
-    let mapToken = "<%= process.env.MAPBOX_PUBLIC_TOKEN  %>";
-    console.log(mapToken);
-    mapboxgl.accessToken = mapToken;
-    const map = new mapboxgl.Map({
-      container: "map", // container ID
-      style: "mapbox://styles/mapbox/street-v12", // default to standard-satellite style on mount
-      center: [-2.81361, 36.77271], // starting position [lng, lat]
-      zoom: 13, // starting zoom
-    });
-
-    // const layerList = document.getElementById("menu");
-    // const inputs = layerList.getElementsByTagName("input");
-
-    // for (const input of inputs) {
-    //   input.onclick = (layer) => {
-    //     const layerId = layer.target.id;
-    //     map.setStyle("mapbox://styles/mapbox/" + layerId);
-    //   };
-  </script>
 </body>
+
+<script src="/js/map.js"></script>
