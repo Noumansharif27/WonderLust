@@ -4,11 +4,11 @@
 </script>
 <body>
   <div class="row-lg-1 show-card">
-    <h2 class="offset-0 col-7">
+    <h2 class="offset-0 col-9">
       <strong><%= listing.title %></strong>
     </h2>
-    <div class="card listing-card" style="width: 60%">
-      <div class="show-card-img">
+    <div class="card listing-card border p-2" style="width: 80%">
+      <div class="show-card-img" style="height: 30% !important">
         <img
           src="<%= listing.image.url %>"
           alt="listing_image"
@@ -44,7 +44,7 @@
     <% } %>
   </div>
 
-  <div class="col-8 offset-1">
+  <div class="col-10 offset-1">
     <hr />
     <h3>Reviews</h3>
 
@@ -115,7 +115,7 @@
     <hr />
   </div>
 
-  <div class="col-8 offset-1 mb-3">
+  <div class="col-10 offset-1 mb-3">
     <div class="row">
       <h3>All Reviews</h3>
       <% for(review of listing.reviews) { %>
@@ -143,7 +143,7 @@
     </div>
   </div>
 
-  <div class="col-8 offset-1 mb-3">
+  <div class="col-10 offset-1 mb-3">
     <hr />
     <h2>Where you’ll be</h2>
     <div id="map"></div>
