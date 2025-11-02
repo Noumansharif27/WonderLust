@@ -21,8 +21,6 @@ module.exports.postNewListings = async (req, res, next) => {
       limit: 2,
     })
     .send();
-  console.log(response.body.features[0].geometry);
-  res.send("done");
 
   const { filename } = req.file;
   const url = req.file.path;
@@ -30,6 +28,9 @@ module.exports.postNewListings = async (req, res, next) => {
   listing.owner = req.user._id;
   console.log(url, "...", filename);
   listing.image = { url, filename };
+  listing.geometry = response.body.features[0].geometry;
+
+  console.log(listing.geometry);
   await listing.save();
   req.flash("success", "Listing created successfully");
   res.redirect("/listings");
