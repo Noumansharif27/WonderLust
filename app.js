@@ -21,7 +21,8 @@ const userRoute = require("./routes/user.js");
 
 const app = express();
 const PORT = 3000;
-const MONGO_URL = "mongodb://127.0.0.1:27017/wonderlust";
+// const MONGO_URL = "mongodb://127.0.0.1:27017/wonderlust";
+const dbUrl = process.env.ATLASDB_URL;
 const sessionOptions = {
   secret: "mysupersecretcode",
   resave: false,
@@ -51,7 +52,7 @@ main()
   });
 
 async function main() {
-  await mongoose.connect(MONGO_URL);
+  await mongoose.connect(dbUrl);
 }
 
 app.use(session(sessionOptions));
