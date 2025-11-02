@@ -1,3 +1,18 @@
+<style>
+  .search-btn,
+  .search-btn:hover {
+    background-color: #6e9784;
+    color: #000;
+    padding: 0 2rem;
+    border-radius: 2rem;
+  }
+
+  .search-bar {
+    border-radius: 2rem;
+    padding: 0.3rem 3rem;
+  }
+</style>
+
 <nav
   class="navbar navbar-expand-sm bg-body-tertiary px-4 d-flex justify-content-between"
 >
@@ -25,6 +40,18 @@
         </li>
       </ul>
     </div>
+
+    <form class="d-flex">
+      <input
+        class="form-control me-2 search-bar"
+        type="search"
+        placeholder="Find your destination"
+        aria-label="Search"
+      />
+      <button class="btn btn-outline-success search-btn" type="button">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </button>
+    </form>
 
     <div
       class="collapse navbar-collapse ms-auto d-flex justify-content-end"
