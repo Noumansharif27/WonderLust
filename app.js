@@ -71,8 +71,9 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get("/", (req, res) => {
-  res.send("Welcome to index route");
+app.get("/", (req, res, next) => {
+  next(new ExpressError(404, "Page not found!"));
+  // res.redirect("/listings");
 });
 
 // app.get("/demouser", async (req, res) => {
