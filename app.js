@@ -14,6 +14,7 @@ const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStratey = require("passport-local");
 const User = require("./models/user.js");
+const MongoStore = require("connect-mongo");
 
 const listingRoute = require("./routes/listing.js");
 const reviewRoute = require("./routes/review.js");
@@ -23,7 +24,20 @@ const app = express();
 const PORT = 3000;
 // const MONGO_URL = "mongodb://127.0.0.1:27017/wonderlust";
 const dbUrl = process.env.ATLASDB_URL;
+
+const store = MongoStore.create({
+  mongoUrl: dbUrl,
+  crypto: {
+    secret: "mysupersecretcode",
+  },
+  touchAfter: 24 * 3600,
+});
+
+store.on("error", () => {
+  console.log("ERROR in mongo session store!", err);
+});
 const sessionOptions = {
+  store,
   secret: "mysupersecretcode",
   resave: false,
   saveUninitialized: true,
