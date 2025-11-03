@@ -21,7 +21,7 @@ const reviewRoute = require("./routes/review.js");
 const userRoute = require("./routes/user.js");
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.APP_LISTENING_PORT || 8080;
 // const MONGO_URL = "mongodb://127.0.0.1:27017/wonderlust";
 const dbUrl = process.env.ATLASDB_URL;
 
