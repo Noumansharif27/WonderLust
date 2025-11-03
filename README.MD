@@ -901,3 +901,147 @@ router
 In the above code we first require the two package `cloudinary` & `multer-storage-cloudinary` which is use to st store files in cloudiary. after that we cofigured the cloudinary variables which are required to store dat in the cloud as they contain the keys and access to the cloud storage and then we also configure the multer storage to assign the files into the cloud and in the newListing we make sure that each image should be a `file` not a `url` and it stores into the cloudStorage. also in the edit route we make sure that if a user updated the image then it also stores into the cloud and replace with the newOne.
 
   </details>
+
+## Mapbox, GeoJSON and Coordinates (how we implemented maps)
+
+Here we will cover the missing parts about showing a map on the `show` route for every listing, how we store coordinates (GeoJSON), how we get them from the user-entered location and how to use the public token in client scripts.
+
+### Mapbox (show route)
+
+To show a map on the listing `show` page we used Mapbox GL JS. Steps:
+
+- Get a Mapbox public token and save it in your `.env` as `MAPBOX_PUBLIC_TOKEN` (this token is public-safe).
+- Include Mapbox CSS & JS in your `layouts/boilerplate.ejs` (we already do):
+
+```html
+<link
+  href="https://api.mapbox.com/mapbox-gl-js/v3.16.0/mapbox-gl.css"
+  rel="stylesheet"
+/>
+<script src="https://api.mapbox.com/mapbox-gl-js/v3.16.0/mapbox-gl.js"></script>
+```
+
+- In the `show.ejs` template we inject the token from the server and initialize the map (we render the token with EJS):
+
+```ejs
+<div id="map" data-token="<%= process.env.MAPBOX_PUBLIC_TOKEN %>"></div>
+
+<script>
+  const mapToken = document.getElementById('map').dataset.token;
+  if (mapToken && typeof mapboxgl !== 'undefined') {
+    mapboxgl.accessToken = mapToken;
+    const map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/mapbox/streets-v12',
+      center: <%= listing.geometry.coordinates[0] %>,
+      zoom: 12
+    });
+    new mapboxgl.Marker().setLngLat(<%= listing.geometry.coordinates[0] %>).addTo(map);
+  }
+</script>
+```
+
+This way the map centers on the stored coordinates for the listing and shows a marker.
+
+### What is GeoJSON?
+
+GeoJSON is a simple format to represent geographic features. For a single point (our listing location) the GeoJSON looks like:
+
+```json
+{
+  "type": "Point",
+  "coordinates": [lng, lat]
+}
+```
+
+We store this geometry in each listing so Mapbox (and other tools) can read it directly.
+
+### GeoJSON in Mongoose (schema)
+
+To store GeoJSON in Mongoose we add a `geometry` field to our schema:
+
+```js
+const listingSchema = new Schema({
+  // ... other fields ...
+  geometry: {
+    type: {
+      type: String,
+      enum: ["Point"],
+      required: true,
+    },
+    coordinates: {
+      type: [Number], // [lng, lat]
+      required: true,
+    },
+  },
+});
+```
+
+When we save a listing we set `listing.geometry = { type: 'Point', coordinates: [lng, lat] }`.
+
+### How we get coordinates from user-entered location
+
+We used the Mapbox Geocoding API on the server when a listing is created or edited. The flow is:
+
+1. User submits the location text (e.g. `"Karachi, Pakistan"`) with the listing form.
+2. Server receives the form, calls Mapbox forward geocoding to get the best match and its coordinates.
+3. Server saves the returned geometry into the listing document before saving to DB.
+
+Example using the official Mapbox SDK:
+
+```js
+const mbxGeocoding = require("@mapbox/mapbox-sdk/services/geocoding");
+const geocoder = mbxGeocoding({ accessToken: process.env.MAPBOX_PUBLIC_TOKEN });
+
+// inside controller when creating a listing
+const geoData = await geocoder
+  .forwardGeocode({ query: req.body.listing.location, limit: 1 })
+  .send();
+const geometry = geoData.body.features[0].geometry; // { type: 'Point', coordinates: [lng, lat] }
+listing.geometry = geometry;
+await listing.save();
+```
+
+This ensures every listing has accurate coordinates tied to the location string the user provided.
+
+### Why we store [lng, lat] (order matters)
+
+GeoJSON uses `[longitude, latitude]` order. Always store coordinates as `[lng, lat]` so Mapbox and other libraries interpret them correctly.
+
+### Using `.env` variables in `public/js/script.js` (client-side)
+
+`process.env` is only available on the server. Files inside `public/` are static and served directly to the browser, so you cannot use `process.env` there. That is why in our `show.ejs` we inject the token into the page and read it in the client script.
+
+Safe ways to expose a public token to client JS:
+
+- Inject into the template as a global variable (rendered by EJS):
+
+```ejs
+<script>
+  window.MAPBOX_TOKEN = '<%= process.env.MAPBOX_PUBLIC_TOKEN %>';
+</script>
+<script src="/js/script.js"></script>
+```
+
+Then in `/public/js/script.js` you can use `window.MAPBOX_TOKEN`.
+
+- Or put the token on a DOM element as a `data-` attribute (we used `data-token` on the `#map` div) and read it in client JS:
+
+```js
+const token = document.getElementById("map").dataset.token;
+```
+
+Why you cannot do `process.env.MAPBOX_PUBLIC_TOKEN` in `script.js`:
+
+- `script.js` runs in the browser where `process.env` is not defined.
+- `process.env` is replaced or read at server runtime (Node), not in client runtime.
+
+Security note: only expose public tokens to client-side code. Never send secret keys (for example Mapbox secret or Cloudinary secret) to the browser. For secret operations use server-side code.
+
+### Quick recap — recommended pattern
+
+- Keep secrets in `.env` and use them only server-side.
+- For public client tokens (mapbox public token) inject them into the rendered HTML or DOM attributes so front-end scripts can read them.
+- Forward-geocode the user-provided location on the server, store GeoJSON `geometry` in the listing, and use those coordinates to center the map and place a marker on the `show` page.
+
+That completes the extra topics — Mapbox, GeoJSON, how we got coordinates from the location, and why `.env` variables are server-only unless explicitly injected into the page.
